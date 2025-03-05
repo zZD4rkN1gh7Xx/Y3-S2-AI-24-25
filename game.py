@@ -92,7 +92,6 @@ def draw(branch_num, branch_birds):
     return selected_branches
 
 
-
 #--------- calculate move-------------
 def calc_move(colors, selected_branch, destination):
     chain = True
@@ -135,49 +134,54 @@ def check_victory(colors):
     return won
 
 #--------- game_loop ---------- 
-run = True
-while run:
-    screen.fill('light blue')
-    timer.tick(fps)
 
-    #game states
-    if new_game:
-        branches, bird_colors = generate_start()
-        initial_colors = copy.deepcopy(bird_colors)
-        new_game = False
-    else:
-        selected_branches = draw(branches, bird_colors)
-        win = check_victory(bird_colors)
+def play():
+    global branches, bird_colors, initial_colors, new_game, selected, select_branch, win 
+    run = True
+    while run:
+        screen.fill('light blue')
+        timer.tick(fps)
 
-    #event handling
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                bird_colors = copy.deepcopy(initial_colors)
-            elif event.key == pygame.K_RETURN:
-                new_game = True
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if not selected:
-                for item in range(len(selected_branches)):
-                    if selected_branches[item].collidepoint(event.pos):
-                        selected = True
-                        select_branch = item
-            else:
-                for item in range(len(selected_branches)):
-                    if selected_branches[item].collidepoint(event.pos):
-                        dest_branch = item
-                        bird_colors = calc_move(bird_colors, select_branch, dest_branch)
-                        selected = False
-                        select_branch = 100
-    # draw 'victory' text when winning in middle, always show restart and new board text at top
-    if win:
-        victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
-        screen.blit(victory_text, (300, 475))
-    restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'white')
-    screen.blit(restart_text, (10, 10))
+        #game states
+        if new_game:
+            branches, bird_colors = generate_start()
+            initial_colors = copy.deepcopy(bird_colors)
+            new_game = False
+        else:
+            selected_branches = draw(branches, bird_colors)
+            win = check_victory(bird_colors)
 
-    pygame.display.flip()
+        #event handling
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    bird_colors = copy.deepcopy(initial_colors)
+                elif event.key == pygame.K_RETURN:
+                    new_game = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if not selected:
+                    for item in range(len(selected_branches)):
+                        if selected_branches[item].collidepoint(event.pos):
+                            selected = True
+                            select_branch = item
+                else:
+                    for item in range(len(selected_branches)):
+                        if selected_branches[item].collidepoint(event.pos):
+                            dest_branch = item
+                            bird_colors = calc_move(bird_colors, select_branch, dest_branch)
+                            selected = False
+                            select_branch = 100
+        # draw 'victory' text when winning in middle, always show restart and new board text at top
+        if win:
+            victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
+            screen.blit(victory_text, (300, 475))
+        restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'white')
+        screen.blit(restart_text, (10, 10))
 
+        pygame.display.flip()
+
+
+play()
 pygame.quit()
