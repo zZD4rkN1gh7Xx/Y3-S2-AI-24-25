@@ -21,6 +21,7 @@ class Button():
 
     def checkForInput(self, position):
         if self.is_hovered(position):  # Pixel-perfect check
+            print("Button pressed!")
             return True  # Return True when the button is clicked
         return False
 

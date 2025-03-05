@@ -28,7 +28,7 @@ def get_font(size):
 
 
 def main_menu():
-    pygame.display.set_caption("MAIN MENU")
+    pygame.display.set_caption("MAIN MENU BRID SROT")
 
     while True:
         screen.blit(BG, (0, 0))  

@@ -30,6 +30,13 @@ def play():
     select_branch = 100
     win = False
 
+    tree_image = pygame.image.load("utilities/arvore-removebg-preview.png")  # Load tree image
+    tree_width = 500  # You can adjust the size of the tree
+    tree_height = 700
+    tree_image = pygame.transform.scale(tree_image, (tree_width, tree_height))  # Scale image to desired size
+
+
+
     #---------- start ------------
     def generate_start():
         branch_number = random.randint(6,12)
@@ -46,6 +53,9 @@ def play():
                 color = random.choice(available_birds)
                 branch_birds[i].append(color)
                 available_birds.remove(color)
+            
+        print(branch_birds)
+        print(branch_number)
 
         return branch_number, branch_birds
 
@@ -90,6 +100,14 @@ def play():
             branch_rect = pygame.Rect(x_pos, y_pos - square_size, branch_width, square_size)
             selected_branches.append(branch_rect)
 
+
+        tree_left_x = -105  # Position for the left tree
+        tree_right_x = WIDTH - 150  # Position for the right tree
+        tree_y = top_padding - 180  # Adjust the vertical position of trees
+
+        screen.blit(tree_image, (tree_left_x, tree_y))  # Draw the left tree
+        screen.blit(tree_image, (tree_right_x, tree_y))  # Draw the right tree
+
         return selected_branches
 
     #--------- calculate move-------------
@@ -117,6 +135,7 @@ def play():
                     if len(colors[selected_branch]) > 0:
                         colors[destination].append(color_on_top)
                         colors[selected_branch].pop(-1)
+        print(colors, length)
         return colors
 
     def check_victory(colors):
