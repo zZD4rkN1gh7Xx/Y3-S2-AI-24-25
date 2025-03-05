@@ -7,7 +7,7 @@ def play():
     pygame.init()  # Initialize pygame only when starting the game loop
     
     pygame.mixer.init()
-    pygame.mixer.music.load("why-did-the-chicken-cross-the-road-official-instrumental.mp3")  
+    pygame.mixer.music.load("utilities/why-did-the-chicken-cross-the-road-official-instrumental.mp3")  
     pygame.mixer.music.set_volume(0.5)  
     pygame.mixer.music.play(-1)
     
