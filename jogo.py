@@ -7,15 +7,16 @@ import pygame
 pygame.init()
 
 # initialize game variables
-WIDTH = 500
+WIDTH = 800
 HEIGHT = 550
+
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
-pygame.display.set_caption('Water Sort PyGame')
+pygame.display.set_caption('Bird Sort')
 font = pygame.font.Font('freesansbold.ttf', 24)
-fps = 60
+fps = 120
 timer = pygame.time.Clock()
-color_choices = ['red', 'orange', 'light blue', 'dark blue', 'dark green', 'pink', 'purple', 'dark gray',
-                 'brown', 'light green', 'yellow', 'white']
+color_choices = ['red', 'orange', 'BLACK', 'dark blue', 'dark green', 'pink', 'purple', 'dark gray',
+                 'violet', 'light green', 'yellow', 'white']
 tube_colors = []
 initial_colors = []
 # 10 - 14 tubes, always start with two empty
@@ -25,7 +26,6 @@ selected = False
 tube_rects = []
 select_rect = 100
 win = False
-
 
 
 # select a number of tubes and pick random colors upon new game setup
@@ -61,7 +61,7 @@ def draw_tubes(tubes_num, tube_cols):
     for i in range(tubes_per_row):
         for j in range(len(tube_cols[i])):
             pygame.draw.rect(screen, color_choices[tube_cols[i][j]], [5 + spacing * i, 200 - (50 * j), 65, 50], 0, 3)
-        box = pygame.draw.rect(screen, 'blue', [5 + spacing * i, 50, 65, 200], 5, 5)
+        box = pygame.draw.rect(screen, 'brown', [5 + spacing * i, 50, 65, 200], 5, 5)
         if select_rect == i:
             pygame.draw.rect(screen, 'green', [5 + spacing * i, 50, 65, 200], 3, 5)
         tube_boxes.append(box)
@@ -70,7 +70,7 @@ def draw_tubes(tubes_num, tube_cols):
             for j in range(len(tube_cols[i + tubes_per_row])):
                 pygame.draw.rect(screen, color_choices[tube_cols[i + tubes_per_row][j]],
                                  [(spacing * 0.5) + 5 + spacing * i, 450 - (50 * j), 65, 50], 0, 3)
-            box = pygame.draw.rect(screen, 'blue', [(spacing * 0.5) + 5 + spacing * i, 300, 65, 200], 5, 5)
+            box = pygame.draw.rect(screen, 'brown', [(spacing * 0.5) + 5 + spacing * i, 300, 65, 200], 5, 5)
             if select_rect == i + tubes_per_row:
                 pygame.draw.rect(screen, 'green', [(spacing * 0.5) + 5 + spacing * i, 300, 65, 200], 3, 5)
             tube_boxes.append(box)
@@ -79,7 +79,7 @@ def draw_tubes(tubes_num, tube_cols):
             for j in range(len(tube_cols[i + tubes_per_row])):
                 pygame.draw.rect(screen, color_choices[tube_cols[i + tubes_per_row][j]], [5 + spacing * i,
                                                                                           450 - (50 * j), 65, 50], 0, 3)
-            box = pygame.draw.rect(screen, 'blue', [5 + spacing * i, 300, 65, 200], 5, 5)
+            box = pygame.draw.rect(screen, 'brown', [5 + spacing * i, 300, 65, 200], 5, 5)
             if select_rect == i + tubes_per_row:
                 pygame.draw.rect(screen, 'green', [5 + spacing * i, 300, 65, 200], 3, 5)
             tube_boxes.append(box)
@@ -134,7 +134,7 @@ def check_victory(colors):
 # main game loop
 run = True
 while run:
-    screen.fill('black')
+    screen.fill('light blue')
     timer.tick(fps)
     # generate game board on new game, make a copy of the colors in case of restart
     if new_game:
