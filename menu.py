@@ -2,6 +2,7 @@ import pygame
 import pygame.locals
 import sys  
 from buttons import Button
+from game import play
 
 pygame.init()
 
@@ -34,7 +35,7 @@ def main_menu():
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("BIRD SORT", True, "#b68f40")
+        MENU_TEXT = get_font(100).render("BRID SROT", True, "#b68f40")
         MENU_RECT = MENU_TEXT.get_rect(center=(WIDTH // 2, 110))
         screen.blit(MENU_TEXT, MENU_RECT)
 
@@ -56,8 +57,7 @@ def main_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    pygame.quit()
-                    sys.exit()  # This will exit the program after quitting Pygame
+                    play()
 
         pygame.display.update()
 
