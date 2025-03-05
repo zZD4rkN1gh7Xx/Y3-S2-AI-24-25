@@ -102,7 +102,7 @@ def play():
 
 
         tree_left_x = -105  # Position for the left tree
-        tree_right_x = WIDTH - 150  # Position for the right tree
+        tree_right_x = WIDTH - 350  # Position for the right tree
         tree_y = top_padding - 180  # Adjust the vertical position of trees
 
         screen.blit(tree_image, (tree_left_x, tree_y))  # Draw the left tree
