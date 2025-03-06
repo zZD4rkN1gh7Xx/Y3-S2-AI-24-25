@@ -54,10 +54,69 @@ def get_new_board(branch_birds, new_move):
 
     return new_board
 
-board = [[4, 1, 4, 2], [3, 2, 0], [2, 3], [4, 4], [3, 1, 3, 2], [0, 0, 0], [1, 1]]
+def check_victory(branch_birds):
+        won = True
+        for i in range(len(branch_birds)):
+            if len(branch_birds[i]) > 0:
+                if len(branch_birds[i]) != 4:
+                    won = False
+                else:
+                    main_color = branch_birds[i][-1]
+                    for j in range(len(branch_birds[i])):
+                        if branch_birds[i][j] != main_color:
+                            won = False
+        return won
 
-move = get_possible_moves(board)[1]
+def recontruct_path(start_banch, current_branch, parent_map):
+    path = []
+
+    while current_branch in parent_map:
+        if current_branch == start_banch:
+            path.append(current_branch)
+            return list(reversed(path))
+        
+        path.append(current_branch)
+        current_branch = parent_map[current_branch]
+                                    
+    return None
 
 
-print(move)
-print(get_new_board(board, move))
+def solve_bfs(branch_birds_queue, start_branch):
+
+    visited = []
+    parentMap = {}
+    start_state = branch_birds_queue[0]
+
+    while branch_birds_queue:
+
+        current_bird_branch = branch_birds_queue.pop(0)
+
+        if check_victory(current_bird_branch):
+            return recontruct_path(start_branch, current_bird_branch, parentMap)
+        
+        else:
+            possible_moves = get_possible_moves(current_bird_branch)
+
+            for move in possible_moves:
+                new_board = get_new_board(current_bird_branch, move)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+board = [[4, 4, 4, 4], [3, 3,3,3], [2, 2,2,2], [1, 1, 1, 6], [0, 0, 0,0], [], []]
+
+print(win)
