@@ -15,7 +15,7 @@ def play():
     WIDTH = 800
     HEIGHT = 550
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
-    font = pygame.font.Font('freesansbold.ttf', 24)
+    font = pygame.font.Font('utilities/Sigmar-Regular.ttf', 24)
     fps = 60
     timer = pygame.time.Clock()
     color_choices = ['red', 'orange', 'BLACK', 'dark blue', 'dark green', 'pink', 'purple', 'dark gray',
@@ -30,13 +30,15 @@ def play():
     select_branch = 100
     win = False
 
-    tree_image = pygame.image.load("utilities/arvore-removebg-preview.png")  # Load tree image
-    tree_width = 500  # You can adjust the size of the tree
+    tree_image = pygame.image.load("utilities/arvore-removebg-preview.png")  
+    tree_width = 500  
     tree_height = 700
-    tree_image = pygame.transform.scale(tree_image, (tree_width, tree_height))  # Scale image to desired size
+    tree_image = pygame.transform.scale(tree_image, (tree_width, tree_height))  
 
-
-
+    cloud_image = pygame.image.load("utilities\cartoon-cloud-png.png") 
+    cloud_width = 1000
+    cloud_height = 300
+    cloud_image = pygame.transform.scale(cloud_image, (cloud_width, cloud_height))
     #---------- start ------------
     def generate_start():
         branch_number = random.randint(6,12)
@@ -75,6 +77,11 @@ def play():
         right_x = half_screen + 50
 
         row_spacing = square_size + spacing_between_branches
+
+        # **Cloud Positioning**
+        cloud_x = -50  # Move the cloud towards the left
+        cloud_y = top_padding - 200  # Adjust height to appear behind the tree
+        screen.blit(cloud_image, (cloud_x, cloud_y))  # **Draw the cloud FIRST**
 
         for i in range(branch_num):
             column = 0 if i % 2 == 0 else 1
@@ -191,7 +198,7 @@ def play():
         if win:
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
             screen.blit(victory_text, (300, 475))
-        restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'white')
+        restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'orange')
         screen.blit(restart_text, (10, 10))
 
         pygame.display.flip()
