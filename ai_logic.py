@@ -1,5 +1,6 @@
 import copy
 
+# Board state class
 class BoardState:
     def __init__(self, board):
         self.board = tuple(tuple(row) for row in board)  
@@ -15,6 +16,7 @@ class BoardState:
         return [list(row) for row in self.board]
 
 
+# -------------AUXILIAR FUNCTIONS---------------#
 def get_possible_moves(branch_birds):
     possible_moves = []
     
@@ -96,6 +98,27 @@ def reconstruct_path(start_branch, current_branch, parent_map):
     return list(reversed(path))
 
 
+def miss_placed_birds(board):
+    misplaced = 0
+
+    for branch in board:
+        if len(branch) == 0:
+            continue
+
+        main_color = branch[0]  
+
+        for bird in branch:
+            if bird != main_color:
+                misplaced += 1  
+
+    return misplaced
+
+
+#----------------------------------------------------------------------#
+
+
+#-----------------SOLVERS-----------------------------------------#
+
 def solve_bfs(initial_board):
     start_state = BoardState(initial_board)
     
@@ -122,6 +145,21 @@ def solve_bfs(initial_board):
                 queue.append(board)
 
     return None
+
+def solve_Astar(initial_board):
+    return initial_board
+
+
+
+
+
+
+
+
+
+
+# ----------------------------------------------------------------------------------
+# testing zone (function to get the moves more readable)
 
 def extract_moves(solution_path):
     moves = []
