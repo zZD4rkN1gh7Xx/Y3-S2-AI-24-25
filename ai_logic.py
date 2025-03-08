@@ -186,10 +186,32 @@ def solve_Astar(initial_board):
 
     return None 
 
-        
+def solve_dfs(initial_board):
+    visited = set()
+    parent_map = {}
+    start_state = BoardState(initial_board)
+    neighbors = get_new_boards(initial_board, get_possible_moves(initial_board))
 
+    return dfs(start_state, start_state, neighbors, visited, parent_map)
 
+def dfs(start_state, current_state, neighbors, visited, parent_map):
+    
+    visited.add(current_state)
+    
+    if check_victory(current_state.to_list()):
+        return reconstruct_path(start_state, current_state, parent_map)
 
+    for neighbor in neighbors:
+        if neighbor not in visited:
+           
+            parent_map[neighbor] = current_state 
+            next_neighbors = get_new_boards(neighbor.to_list(), get_possible_moves(neighbor.to_list()))
+            result = dfs(start_state, neighbor, next_neighbors, visited, parent_map)
+
+            if result: 
+                return result
+
+    return None 
 
 
 
@@ -219,4 +241,7 @@ def extract_moves(solution_path):
 
 
 board = [[2, 0, 1, 2], [3, 1, 3, 1], [0, 2, 2, 1], [3, 0, 3, 0], [], []]
-print(extract_moves(solve_Astar(board)))
+print(extract_moves(solve_bfs(board)))
+
+print("DFS PATH ", extract_moves(solve_dfs(board)), "\n")
+#print(solve_dfs(board))

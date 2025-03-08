@@ -41,7 +41,7 @@ def play():
     cloud_image = pygame.transform.scale(cloud_image, (cloud_width, cloud_height))
     #---------- start ------------
     def generate_start():
-        branch_number = random.randint(6,12)
+        branch_number = random.randint(4,12)
         branch_birds = []
         available_birds = []
 
