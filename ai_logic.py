@@ -175,12 +175,12 @@ def solve_Astar(initial_board):
         possible_moves =  get_possible_moves(current_state.to_list())
 
         for board in get_new_boards(current_state.to_list(), possible_moves):
-            new_state = BoardState(board.to_list())  # Use board instead of new_board
+            new_state = BoardState(board.to_list())  
             new_g = current_g + 1
 
             if new_state not in g_scores or new_g < g_scores[new_state]:
                 g_scores[new_state] = new_g  
-                f_score = new_g + miss_placed_birds(board.to_list())  # Use board instead of new_board
+                f_score = new_g + miss_placed_birds(board.to_list())  
                 heapq.heappush(queue, (f_score, new_g, new_state))
                 parent_map[new_state] = current_state   
 
