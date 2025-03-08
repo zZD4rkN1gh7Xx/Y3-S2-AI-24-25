@@ -124,6 +124,40 @@ def miss_placed_birds(board):
 
 #-----------------SOLVERS-----------------------------------------#
 
+# Iterative Deepening Depth-First Search (IDDFS)
+def solve_iddfs(initial_board):
+    start_state = BoardState(initial_board)
+    depth = 0
+
+    while True:
+        visited = set()
+        parent_map = {}
+        print(f"Trying depth {depth}...")  # Debugging
+        result = dls(start_state, start_state, depth, visited, parent_map)
+
+        if result:
+            return result
+        
+        depth += 1 
+
+def dls(start_state, current_state, depth, visited, parent_map):
+    #print(f"Exploring depth {depth} for state:\n", current_state.to_list())  # Debugging
+    if depth == 0:
+        return None
+    
+    if check_victory(current_state.to_list()):
+        return reconstruct_path(start_state, current_state, parent_map)
+    
+    visited.add(current_state)
+    possible_moves = get_possible_moves(current_state.to_list())
+    for board in get_new_boards(current_state.to_list(), possible_moves):
+        if board not in visited:
+            parent_map[board] = current_state
+            result = dls(start_state, board, depth - 1, visited, parent_map)
+            if result:
+                return result
+    return None
+
 def solve_bfs(initial_board):
     start_state = BoardState(initial_board)
     
@@ -245,9 +279,13 @@ def extract_moves(solution_path):
 board = [[1, 2, 2, 3], [3, 1, 2, 0], [1, 3, 0, 0], [3, 2, 1, 0], [], []]
 #board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [5, 8, 6, 8], [1, 7, 3, 1], [2, 8, 5, 2], [3, 4, 7, 5], [], []]
 
-print("BFS PATH ", extract_moves(solve_bfs(board)), "\n")
+#print("BFS PATH ", extract_moves(solve_bfs(board)), "\n")
 
 #print("A* PATH", extract_moves(solve_Astar(board)), "\n")
 
 #print("DFS PATH ", extract_moves(solve_dfs(board)), "\n")
+
+print("BFS PATH LENGTH:", len(extract_moves(solve_bfs(board))))
+print("IDDFS PATH ", extract_moves(solve_iddfs(board)), "\n")
+
 #print(solve_dfs(board))
