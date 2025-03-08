@@ -1,4 +1,5 @@
 import copy
+import heapq
 
 # Board state class
 class BoardState:
@@ -14,6 +15,10 @@ class BoardState:
     def to_list(self):
         """Convert back to a list (for processing)"""
         return [list(row) for row in self.board]
+    
+    def __lt__(self, other):
+        """Defines ordering for heapq"""
+        return self.board < other.board 
 
 
 # -------------AUXILIAR FUNCTIONS---------------#
@@ -146,11 +151,42 @@ def solve_bfs(initial_board):
 
     return None
 
+
 def solve_Astar(initial_board):
-    return initial_board
+    start_state = BoardState(initial_board)
 
+    queue = [(miss_placed_birds(initial_board), 0, start_state)]  
+    heapq.heapify(queue)
 
+    visited = set()
+    parent_map = {start_state: None}  
+    g_scores = {start_state: 0}
 
+    while queue:
+        _, current_g, current_state = heapq.heappop(queue)  
+
+        if check_victory(current_state.to_list()):
+            return reconstruct_path(start_state, current_state, parent_map)
+
+        if current_state in visited:
+            continue  
+
+        visited.add(current_state)
+        possible_moves =  get_possible_moves(current_state.to_list())
+
+        for board in get_new_boards(current_state.to_list(), possible_moves):
+            new_state = BoardState(board.to_list())  # Use board instead of new_board
+            new_g = current_g + 1
+
+            if new_state not in g_scores or new_g < g_scores[new_state]:
+                g_scores[new_state] = new_g  
+                f_score = new_g + miss_placed_birds(board.to_list())  # Use board instead of new_board
+                heapq.heappush(queue, (f_score, new_g, new_state))
+                parent_map[new_state] = current_state   
+
+    return None 
+
+        
 
 
 
@@ -183,4 +219,4 @@ def extract_moves(solution_path):
 
 
 board = [[2, 0, 1, 2], [3, 1, 3, 1], [0, 2, 2, 1], [3, 0, 3, 0], [], []]
-print(extract_moves(solve_bfs(board)))
+print(extract_moves(solve_Astar(board)))
