@@ -42,12 +42,14 @@ def main_menu():
         button_image = pygame.image.load("utilities/menu-buttom.png")
         button_image = pygame.transform.scale(button_image, (400, 200))
 
+        button_image2 = pygame.transform.scale(button_image, (300, 150))
+
         PLAY_BUTTON = Button(image=button_image, pos=(WIDTH // 2, 310), 
                              text_input="PLAY!", font=get_font(50), 
                              base_color="#d7fcd4", hovering_color="orange")
         
-        OPTIONS_BUTTON = Button(image=button_image, pos=(WIDTH // 2, 410), 
-                             text_input="OPTIONS", font=get_font(50), 
+        OPTIONS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2, 410), 
+                             text_input="OPTIONS", font=get_font(30), 
                              base_color="#d7fcd4", hovering_color="orange")
 
         for button in [PLAY_BUTTON]:
@@ -65,9 +67,9 @@ def main_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play()
+                    play("PLAYER")
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play()
+                    play("BOT")
 
         pygame.display.update()
 

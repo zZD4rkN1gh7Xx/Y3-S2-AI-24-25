@@ -1,9 +1,10 @@
 import copy
 import random
 import pygame
+from ai_bot import playBot
 
 # Define the play function here without immediately running it
-def play():
+def play(playerType):
     pygame.init()  # Initialize pygame only when starting the game loop
     
     pygame.mixer.init()
@@ -182,19 +183,23 @@ def play():
                     bird_colors = copy.deepcopy(initial_colors)
                 elif event.key == pygame.K_RETURN:
                     new_game = True
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if not selected:
-                    for item in range(len(selected_branches)):
-                        if selected_branches[item].collidepoint(event.pos):
-                            selected = True
-                            select_branch = item
-                else:
-                    for item in range(len(selected_branches)):
-                        if selected_branches[item].collidepoint(event.pos):
-                            dest_branch = item
-                            bird_colors = calc_move(bird_colors, select_branch, dest_branch)
-                            selected = False
-                            select_branch = 100
+
+            if(playerType == "PLAYER"):
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if not selected:
+                        for item in range(len(selected_branches)):
+                            if selected_branches[item].collidepoint(event.pos):
+                                selected = True
+                                select_branch = item
+                    else:
+                        for item in range(len(selected_branches)):
+                            if selected_branches[item].collidepoint(event.pos):
+                                dest_branch = item
+                                bird_colors = calc_move(bird_colors, select_branch, dest_branch)
+                                selected = False
+                                select_branch = 100
+            else:
+                playBot()
         if win:
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
             screen.blit(victory_text, (300, 475))
