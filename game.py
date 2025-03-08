@@ -6,10 +6,15 @@ import pygame
 def play():
     pygame.init()  # Initialize pygame only when starting the game loop
     
-    pygame.mixer.init()
+    pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)  # Reduce buffer size to lower latency
     pygame.mixer.music.load("utilities/why-did-the-chicken-cross-the-road-official-instrumental.mp3")  
     pygame.mixer.music.set_volume(0.5)  
     pygame.mixer.music.play(-1)
+
+    winning_sound = pygame.mixer.Sound("utilities/angry-birds-victory-sound.mp3")
+    winning_sound.set_volume(0.5) 
+    
+    win_channel = pygame.mixer.Channel(1)
     
     #------- variables ------------
     WIDTH = 800
@@ -157,6 +162,11 @@ def play():
                         if colors[i][j] != main_color:
                             won = False
         return won
+    
+    def play_winning_sound():
+        if not win_channel.get_busy():  # Prevents overlapping
+            win_channel.play(winning_sound)
+            
 
     #--------- game_loop ---------- 
     run = True
@@ -198,6 +208,8 @@ def play():
         if win:
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
             screen.blit(victory_text, (300, 475))
+            play_winning_sound()
+
         restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'orange')
         screen.blit(restart_text, (10, 10))
 
