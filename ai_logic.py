@@ -118,11 +118,71 @@ def miss_placed_birds(board):
 
     return misplaced
 
+# escolhe a move que tenha mais passaros mal sem estar no estado de visited
+def best_local_move(branch_birds, visited):
+    possible_moves = get_possible_moves(branch_birds)
+    best_move = None
+    best_score = float('inf')
+
+    for move in possible_moves:
+        source, destination = move
+        new_board = copy.deepcopy(branch_birds)
+
+        if len(new_board[source]) == 0 or len(new_board[destination]) >= 4:
+            continue  
+
+        new_boards = get_new_boards(branch_birds, [move])
+        if not new_boards:
+            continue 
+
+        new_board_state = new_boards[0].to_list()
+        new_state = BoardState(new_board_state)
+
+        if new_state in visited:
+            continue  
+
+        misplaced = miss_placed_birds(new_board_state)
+
+        if misplaced < best_score:
+            best_score = misplaced
+            best_move = move
+
+    if best_move:
+        new_boards = get_new_boards(branch_birds, [best_move])
+        return new_boards[0].to_list() if new_boards else None
+    return None
+
 
 #----------------------------------------------------------------------#
 
 
 #-----------------SOLVERS-----------------------------------------#
+
+
+
+def solve_greedy(initial_board):
+    start_state = BoardState(initial_board)
+    visited = set()
+    parent_map = {}
+    current_state = start_state
+
+    while not check_victory(current_state.to_list()):
+        if current_state in visited:
+            return None 
+
+        visited.add(current_state)
+        next_board = best_local_move(current_state.to_list(), visited) 
+
+        if not next_board:
+            return None 
+
+        next_state = BoardState(next_board)
+        parent_map[next_state] = current_state
+        current_state = next_state
+
+    return reconstruct_path(start_state, current_state, parent_map)
+
+
 
 def solve_uniform_cost(initial_board):
     start_state = BoardState(initial_board)
@@ -310,8 +370,8 @@ def extract_moves(solution_path):
 
 #board = [[2, 0, 0, 1], [1, 1, 3, 1], [2, 2, 3, 2], [0, 3, 0, 3], [], []]
 #board = [[1, 2, 2, 3], [3, 1, 2, 0], [1, 3, 0, 0], [3, 2, 1, 0], [], []]
-board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [5, 8, 6, 8], [1, 7, 3, 1], [2, 8, 5, 2], [3, 4, 7, 5], [], []]
-
+#board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [5, 8, 6, 8], [1, 7, 3, 1], [2, 8, 5, 2], [3, 4, 7, 5], [], []]
+board = [[1, 1, 0, 0], [0, 1, 0, 1], [], []]
 #print("BFS PATH ", extract_moves(solve_bfs(board)), "\n")
 
 #print("A* PATH", extract_moves(solve_Astar(board)), "\n")
@@ -321,13 +381,16 @@ board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [
 #print("BFS PATH LENGTH:", len(extract_moves(solve_bfs(board))))
 #print("IDDFS PATH ", extract_moves(solve_iddfs(board)))
 
-solution_path = solve_uniform_cost(board)
+#solution_path = solve_uniform_cost(board)
 
-if solution_path:
-    moves = extract_moves(solution_path)
-    print("USC Path:", moves)
-    print("usc len:", len(moves))
-else:
-    print("No solution found.")
+#if solution_path:
+#    moves = extract_moves(solution_path)
+#    print("USC Path:", moves)
+#    print("usc len:", len(moves))
+#else:
+#    print("No solution found.")
 
 #print(solve_dfs(board))
+
+
+print("Greedy", extract_moves(solve_greedy(board)))
