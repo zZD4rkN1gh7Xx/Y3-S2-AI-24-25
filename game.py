@@ -30,6 +30,8 @@ def play(playerType):
     selected_branches = []
     select_branch = 100
     win = False
+    botMoves = []
+
 
     tree_image = pygame.image.load("utilities/arvore-removebg-preview.png")  
     tree_width = 500  
@@ -42,7 +44,7 @@ def play(playerType):
     cloud_image = pygame.transform.scale(cloud_image, (cloud_width, cloud_height))
     #---------- start ------------
     def generate_start():
-        branch_number = random.randint(4,12)
+        branch_number = random.randint(4,6)
         branch_birds = []
         available_birds = []
 
@@ -199,7 +201,8 @@ def play(playerType):
                                 selected = False
                                 select_branch = 100
             else:
-                playBot()
+                bird_colors,botMoves = playBot(bird_colors,botMoves)
+                
         if win:
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
             screen.blit(victory_text, (300, 475))
@@ -208,6 +211,5 @@ def play(playerType):
 
         pygame.display.flip()
 
-    pygame.quit()  # Quit pygame when done
-
+    pygame.quit()
 

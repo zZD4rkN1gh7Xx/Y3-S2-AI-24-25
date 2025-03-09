@@ -21,8 +21,6 @@ pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
 
 
-
-
 def get_font(size):  
     return pygame.font.Font('utilities/Sigmar-Regular.ttf', size)
 
