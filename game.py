@@ -210,9 +210,10 @@ def play(playerType):
                                 bird_colors = calc_move(bird_colors, select_branch, dest_branch)
                                 selected = False
                                 select_branch = 100
-            else:
-                bird_colors,botMoves = playBot(bird_colors,botMoves)
-                
+           
+        if playerType == "BOT" and not win:
+            bird_colors, botMoves = playBot(bird_colors, botMoves)
+
         if win:
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
             screen.blit(victory_text, (300, 475))
