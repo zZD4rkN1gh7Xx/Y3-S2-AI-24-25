@@ -124,6 +124,40 @@ def miss_placed_birds(board):
 
 #-----------------SOLVERS-----------------------------------------#
 
+def solve_uniform_cost(initial_board):
+    start_state = BoardState(initial_board)
+    
+    queue = [(0, start_state)]
+    heapq.heapify(queue)
+    
+    visited = set()
+    
+    parent_map = {}
+    
+    cost_map = {start_state: 0}
+    
+    while queue:
+        current_cost, current_state = heapq.heappop(queue)
+        
+        if check_victory(current_state.to_list()):
+            return reconstruct_path(start_state, current_state, parent_map)
+        
+        if current_state in visited:
+            continue
+        
+        visited.add(current_state)
+        
+        possible_moves = get_possible_moves(current_state.to_list())
+        for board in get_new_boards(current_state.to_list(), possible_moves):
+            new_cost = current_cost + 1  
+            
+            if board not in cost_map or new_cost < cost_map[board]:
+                cost_map[board] = new_cost
+                heapq.heappush(queue, (new_cost, board))
+                parent_map[board] = current_state
+    
+    return None
+
 # Iterative Deepening Depth-First Search (IDDFS)
 def solve_iddfs(initial_board):
     start_state = BoardState(initial_board)
@@ -132,7 +166,7 @@ def solve_iddfs(initial_board):
     while True:
         visited = set()
         parent_map = {}
-        print(f"Trying depth {depth}...")  # Debugging
+        #print(f"Trying depth {depth}...")  # Debugging
         result = dls(start_state, start_state, depth, visited, parent_map)
 
         if result:
@@ -141,7 +175,6 @@ def solve_iddfs(initial_board):
         depth += 1 
 
 def dls(start_state, current_state, depth, visited, parent_map):
-    #print(f"Exploring depth {depth} for state:\n", current_state.to_list())  # Debugging
     if depth == 0:
         return None
     
@@ -276,16 +309,25 @@ def extract_moves(solution_path):
 
 
 #board = [[2, 0, 0, 1], [1, 1, 3, 1], [2, 2, 3, 2], [0, 3, 0, 3], [], []]
-board = [[1, 2, 2, 3], [3, 1, 2, 0], [1, 3, 0, 0], [3, 2, 1, 0], [], []]
-#board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [5, 8, 6, 8], [1, 7, 3, 1], [2, 8, 5, 2], [3, 4, 7, 5], [], []]
+#board = [[1, 2, 2, 3], [3, 1, 2, 0], [1, 3, 0, 0], [3, 2, 1, 0], [], []]
+board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [5, 8, 6, 8], [1, 7, 3, 1], [2, 8, 5, 2], [3, 4, 7, 5], [], []]
 
 #print("BFS PATH ", extract_moves(solve_bfs(board)), "\n")
 
 #print("A* PATH", extract_moves(solve_Astar(board)), "\n")
 
-#print("DFS PATH ", extract_moves(solve_dfs(board)), "\n")
+#print("DFS PATH LENGHT ", len(extract_moves(solve_dfs(board))))
 
-print("BFS PATH LENGTH:", len(extract_moves(solve_bfs(board))))
-print("IDDFS PATH ", extract_moves(solve_iddfs(board)), "\n")
+#print("BFS PATH LENGTH:", len(extract_moves(solve_bfs(board))))
+#print("IDDFS PATH ", extract_moves(solve_iddfs(board)))
+
+solution_path = solve_uniform_cost(board)
+
+if solution_path:
+    moves = extract_moves(solution_path)
+    print("USC Path:", moves)
+    print("usc len:", len(moves))
+else:
+    print("No solution found.")
 
 #print(solve_dfs(board))
