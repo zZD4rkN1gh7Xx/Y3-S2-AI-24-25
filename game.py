@@ -2,6 +2,10 @@ import copy
 import random
 import pygame
 from ai_bot import playBot
+from buttons import Button
+
+def get_font(size):  
+    return pygame.font.Font('utilities/Sigmar-Regular.ttf', size)
 
 # Define the play function here without immediately running it
 def play(playerType):
@@ -47,6 +51,13 @@ def play(playerType):
     cloud_width = 1000
     cloud_height = 300
     cloud_image = pygame.transform.scale(cloud_image, (cloud_width, cloud_height))
+
+    button_image = pygame.image.load("utilities\menu-buttom.png")
+    button_image = pygame.transform.scale(button_image,(125, 90))
+    BACK_BUTTON = Button(image=button_image, pos=(50,510),
+                         text_input="<-", font=get_font(20),
+                         base_color="#d7fcd4", hovering_color="orange")
+
     #---------- start ------------
     def generate_start():
         branch_number = random.randint(4,6)
@@ -177,6 +188,8 @@ def play(playerType):
         screen.fill('light blue')
         timer.tick(fps)
 
+        MOUSE_POS = pygame.mouse.get_pos()
+
         #game states
         if new_game:
             branches, bird_colors = generate_start()
@@ -195,6 +208,9 @@ def play(playerType):
                     bird_colors = copy.deepcopy(initial_colors)
                 elif event.key == pygame.K_RETURN:
                     new_game = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if BACK_BUTTON.checkForInput(MOUSE_POS):
+                    return 
 
             if(playerType == "PLAYER"):
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -213,6 +229,9 @@ def play(playerType):
            
         if playerType == "BOT" and not win:
             bird_colors, botMoves = playBot(bird_colors, botMoves)
+
+        BACK_BUTTON.changeColor(MOUSE_POS)
+        BACK_BUTTON.update(screen)
 
         if win:
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
