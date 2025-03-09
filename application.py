@@ -21,8 +21,6 @@ pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1)
 
 
-
-
 def get_font(size):  
     return pygame.font.Font('utilities/Sigmar-Regular.ttf', size)
 
@@ -42,11 +40,21 @@ def main_menu():
         button_image = pygame.image.load("utilities/menu-buttom.png")
         button_image = pygame.transform.scale(button_image, (400, 200))
 
+        button_image2 = pygame.transform.scale(button_image, (300, 150))
+
         PLAY_BUTTON = Button(image=button_image, pos=(WIDTH // 2, 310), 
                              text_input="PLAY!", font=get_font(50), 
                              base_color="#d7fcd4", hovering_color="orange")
+        
+        OPTIONS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2, 410), 
+                             text_input="OPTIONS", font=get_font(30), 
+                             base_color="#d7fcd4", hovering_color="orange")
 
         for button in [PLAY_BUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(screen)
+        
+        for button in [OPTIONS_BUTTON]:
             button.changeColor(MENU_MOUSE_POS)
             button.update(screen)
 
@@ -57,7 +65,9 @@ def main_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play()
+                    play("PLAYER")
+                if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    play("BOT")
 
         pygame.display.update()
 
