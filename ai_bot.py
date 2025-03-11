@@ -7,16 +7,29 @@ def playBot(board,moves,bot_algorithm):
     if(moves == []): #get moves during the first time
         match bot_algorithm:
             case 1:
+                print("\n SOLVING USING DFS \n")
                 moves = ai_logic.solve_dfs(board)
             case 2:
+                print("\n SOLVING USING BFS \n")
                 moves = ai_logic.solve_bfs(board)
+            case 3:
+                print("\n SOLVING USING ITERATIVE DEEPENING DFS \n")
+                moves = ai_logic.solve_iddfs(board)
+            case 4:
+                print("\n SOLVING USING UNIFORM COST \n")
+                moves = ai_logic.solve_uniform_cost(board)
+            case 5:
+                print("\n SOLVING USING GREEDY \n")
+                moves = ai_logic.solve_greedy(board)
             case 6:
+                print("\n SOLVING USING A* \n")
                 moves = ai_logic.solve_Astar(board)
             case 7:
-                w = input("please state the weight for weighted A*")
+                w = 3.5
+                print("\n SOLVING USING WEIGHTED A*, with w = ", w, "\n"), 
                 moves = ai_logic.solve_Astar(board, w)
             case _:
-                print("Invalid algorithm option")
+                print("Invalid algorithm option \n")
                 
 
     else:    #run 1 move at a time

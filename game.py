@@ -8,7 +8,8 @@ def get_font(size):
     return pygame.font.Font('utilities/Sigmar-Regular.ttf', size)
 
 # Define the play function here without immediately running it
-def play(playerType,bot_algorithm):
+
+def play(playerType,bot_algorithm=0):
     pygame.init()  # Initialize pygame only when starting the game loop
     
     pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)  # Reduce buffer size to lower latency

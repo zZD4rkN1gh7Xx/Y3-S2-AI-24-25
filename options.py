@@ -21,8 +21,8 @@ def options(BG):
 
         OPTIONS_MOUSE_POS = pygame.mouse.get_pos()
 
-        OPTIONS_TEXT = pygame.font.Font('utilities/Sigmar-Regular.ttf', 50).render("OPTIONS", True, "#b68f40")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(400, 75))
+        OPTIONS_TEXT = pygame.font.Font('utilities/Sigmar-Regular.ttf', 50).render("CHOOSE AN ALGORITHM", True, "#b68f40")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(400, 65))
         screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
         button_image = pygame.image.load("utilities/menu-buttom.png")
@@ -75,7 +75,7 @@ def options(BG):
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BACK_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
-                    return  # Exit the options menu and return to the main menu
+                    return  
                 if BUTTON1.checkForInput(OPTIONS_MOUSE_POS):
                     play("BOT",1)
                 if BUTTON2.checkForInput(OPTIONS_MOUSE_POS):

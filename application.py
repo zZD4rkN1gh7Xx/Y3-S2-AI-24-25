@@ -65,10 +65,9 @@ def main_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play("PLAYER",0)
+                    play("PLAYER")
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options(BG)
-                    #play("BOT")
 
         pygame.display.update()
 
