@@ -44,9 +44,6 @@ def playBot(board,moves,bot_algorithm):
 
     return board,moves
 
-
-import copy
-
 # da-te uma hint based na euristica de defenida na miss_placed_birds
 def get_hint(branch_birds):
     next_board = ai_logic.best_local_move(branch_birds, [])  
