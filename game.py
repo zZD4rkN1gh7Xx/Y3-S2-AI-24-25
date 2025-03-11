@@ -51,12 +51,12 @@ def play(playerType,bot_algorithm=0):
     tree_height = 700
     tree_image = pygame.transform.scale(tree_image, (tree_width, tree_height))  
 
-    cloud_image = pygame.image.load("utilities\cartoon-cloud-png.png") 
+    cloud_image = pygame.image.load("utilities/cartoon-cloud-png.png") 
     cloud_width = 1000
     cloud_height = 300
     cloud_image = pygame.transform.scale(cloud_image, (cloud_width, cloud_height))
 
-    button_image = pygame.image.load("utilities\menu-buttom.png")
+    button_image = pygame.image.load("utilities/menu-buttom.png")
     button_image = pygame.transform.scale(button_image,(125, 90))
     BACK_BUTTON = Button(image=button_image, pos=(50,510),
                          text_input="<-", font=get_font(20),
