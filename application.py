@@ -3,6 +3,7 @@ import pygame.locals
 import sys  
 from buttons import Button
 from game import play
+from options import options
 
 pygame.init()
 
@@ -39,7 +40,6 @@ def main_menu():
 
         button_image = pygame.image.load("utilities/menu-buttom.png")
         button_image = pygame.transform.scale(button_image, (400, 200))
-
         button_image2 = pygame.transform.scale(button_image, (300, 150))
 
         PLAY_BUTTON = Button(image=button_image, pos=(WIDTH // 2, 310), 
@@ -67,7 +67,7 @@ def main_menu():
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
                     play("PLAYER")
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play("BOT")
+                    options(BG)
 
         pygame.display.update()
 
