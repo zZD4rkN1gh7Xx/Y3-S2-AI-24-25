@@ -4,6 +4,7 @@ import sys
 from buttons import Button
 from game import play
 from options import options
+from bot_statistics import show_bot_statistics
 
 pygame.init()
 
@@ -49,13 +50,13 @@ def main_menu():
         OPTIONS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2, 410), 
                              text_input="OPTIONS", font=get_font(30), 
                              base_color="#d7fcd4", hovering_color="orange")
-
-        for button in [PLAY_BUTTON]:
-            button.changeColor(MENU_MOUSE_POS)
-            button.update(screen)
         
-        for button in [OPTIONS_BUTTON]:   
-            button.changeColor(MENU_MOUSE_POS)
+        BOT_STATS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2, 500),  
+                          text_input="BOT STATS", font=get_font(30),  
+                          base_color="#d7fcd4", hovering_color="orange")
+
+        for button in [PLAY_BUTTON, OPTIONS_BUTTON, BOT_STATS_BUTTON]:  
+            button.changeColor(MENU_MOUSE_POS)  
             button.update(screen)
 
         for event in pygame.event.get():
@@ -68,6 +69,8 @@ def main_menu():
                     play("PLAYER")
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options(BG)
+                if BOT_STATS_BUTTON.checkForInput(MENU_MOUSE_POS):  
+                    show_bot_statistics()
 
         pygame.display.update()
 

@@ -1,6 +1,7 @@
 import copy
 import random
 import pygame
+import time
 from ai_bot import playBot
 from ai_bot import get_hint
 from buttons import Button

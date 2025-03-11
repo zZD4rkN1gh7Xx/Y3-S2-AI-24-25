@@ -369,10 +369,10 @@ def extract_moves(solution_path):
 #board = [[2, 0, 0, 1], [1, 1, 3, 1], [2, 2, 3, 2], [0, 3, 0, 3], [], []]
 #board = [[1, 2, 2, 3], [3, 1, 2, 0], [1, 3, 0, 0], [3, 2, 1, 0], [], []]
 #board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [5, 8, 6, 8], [1, 7, 3, 1], [2, 8, 5, 2], [3, 4, 7, 5], [], []]
-board = [[1, 5, 7, 7], [7, 1, 3, 0], [5, 1, 2, 2], [0, 4, 2, 3], [5, 0, 2, 6], [4, 7, 0, 4], [4, 3, 5, 3], [1, 6, 6, 6], [], []]
+board = [[4, 3, 4, 5], [2, 3, 1, 1], [2, 0, 0, 0], [1, 5, 1, 3], [4, 4, 5, 0], [3, 5, 2, 2], [], []]
 #print("BFS PATH ", extract_moves(solve_bfs(board)), "\n")
 
-#print("A* PATH", extract_moves(solve_Astar(board)), "\n")
+print("A* PATH", extract_moves(solve_Astar(board,1.2)), "\n")
 
 #print("DFS PATH LENGHT ", len(extract_moves(solve_dfs(board))))
 

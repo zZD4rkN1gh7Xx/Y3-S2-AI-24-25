@@ -1,10 +1,17 @@
 import time
 import ai_logic
+import  csv
 
 def playBot(board,moves,bot_algorithm):
     print("BOT IS PLAYING")
+
+    board_size = len(board)
+    algorithm_name = ["DFS", "BFS", "IDDFS", "Uniform Cost", "Greedy", "A*", "Weighted A*"]
+
     
-    if(moves == []): #get moves during the first time
+    if moves == []: #get moves during the first time
+        start_time = time.time()
+
         match bot_algorithm:
             case 1:
                 print("\n SOLVING USING DFS \n")
@@ -25,12 +32,19 @@ def playBot(board,moves,bot_algorithm):
                 print("\n SOLVING USING A* \n")
                 moves = ai_logic.solve_Astar(board)
             case 7:
-                w = 3.5
+                w = 1.2
                 print("\n SOLVING USING WEIGHTED A*, with w = ", w, "\n"), 
                 moves = ai_logic.solve_Astar(board, w)
             case _:
                 print("Invalid algorithm option \n")
                 
+        end_time = time.time()
+        bot_think_time = end_time - start_time
+        print(f"Bot took {bot_think_time:.4f} seconds to compute the solution.")
+
+        with open("bot_performance.csv", mode="a", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow([board_size, algorithm_name[bot_algorithm - 1], bot_think_time])
 
     else:    #run 1 move at a time
         new_move = moves[0]
