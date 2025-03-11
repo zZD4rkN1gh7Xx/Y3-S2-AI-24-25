@@ -2,6 +2,7 @@ import copy
 import random
 import pygame
 from ai_bot import playBot
+from ai_bot import get_hint
 from buttons import Button
 
 def get_font(size):  
@@ -41,6 +42,8 @@ def play(playerType):
     win = False
     botMoves = []
 
+    hint_move = None
+
 
     tree_image = pygame.image.load("utilities/arvore-removebg-preview.png")  
     tree_width = 500  
@@ -58,9 +61,14 @@ def play(playerType):
                          text_input="<-", font=get_font(20),
                          base_color="#d7fcd4", hovering_color="orange")
 
+    HINT_BUTTON = Button(image=button_image, pos=(180, 510),  
+                     text_input="Hint", font=get_font(20),  
+                     base_color="#d7fcd4", hovering_color="orange")
+  
+
     #---------- start ------------
     def generate_start():
-        branch_number = random.randint(4,6)
+        branch_number = random.randint(6,8)
         branch_birds = []
         available_birds = []
 
@@ -134,6 +142,11 @@ def play(playerType):
         screen.blit(tree_image, (tree_left_x, tree_y))  # Draw the left tree
         screen.blit(tree_image, (tree_right_x, tree_y))  # Draw the right tree
 
+
+
+
+
+
         return selected_branches
 
     #--------- calculate move-------------
@@ -183,6 +196,11 @@ def play(playerType):
             
 
     #--------- game_loop ---------- 
+
+
+
+
+
     run = True
     while run:
         screen.fill('light blue')
@@ -211,6 +229,8 @@ def play(playerType):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BACK_BUTTON.checkForInput(MOUSE_POS):
                     return 
+                if HINT_BUTTON.checkForInput(MOUSE_POS) and playerType == "PLAYER":
+                    hint_move = get_hint(bird_colors)
 
             if(playerType == "PLAYER"):
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -232,6 +252,23 @@ def play(playerType):
 
         BACK_BUTTON.changeColor(MOUSE_POS)
         BACK_BUTTON.update(screen)
+        
+        if playerType == "PLAYER":
+            HINT_BUTTON.changeColor(MOUSE_POS)
+            HINT_BUTTON.update(screen)
+
+
+        if hint_move and playerType == "PLAYER":
+            hint_text = font.render(f"Hint: Move {hint_move[0]} -> {hint_move[1]}", True, "yellow")
+            screen.blit(hint_text, (300, 520))
+
+        if hint_move and playerType == "PLAYER":
+            hint_source, hint_dest = hint_move
+            pygame.draw.line(screen, "red", (selected_branches[hint_source].x, selected_branches[hint_source].y),
+                            (selected_branches[hint_source].x + 200, selected_branches[hint_source].y), 8)
+            pygame.draw.line(screen, "red", (selected_branches[hint_dest].x, selected_branches[hint_dest].y),
+                            (selected_branches[hint_dest].x + 200, selected_branches[hint_dest].y), 8)
+
 
         if win:
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')

@@ -54,7 +54,7 @@ def main_menu():
             button.changeColor(MENU_MOUSE_POS)
             button.update(screen)
         
-        for button in [OPTIONS_BUTTON]:
+        for button in [OPTIONS_BUTTON]:   
             button.changeColor(MENU_MOUSE_POS)
             button.update(screen)
 
