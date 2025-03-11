@@ -69,7 +69,7 @@ def play(playerType,bot_algorithm=0):
 
     #---------- start ------------
     def generate_start():
-        branch_number = random.randint(6,8)
+        branch_number = random.randint(4,6)
         branch_birds = []
         available_birds = []
 
@@ -247,6 +247,7 @@ def play(playerType,bot_algorithm=0):
                                 bird_colors = calc_move(bird_colors, select_branch, dest_branch)
                                 selected = False
                                 select_branch = 100
+                                hint_move = None
            
         if playerType == "BOT" and not win:
             bird_colors, botMoves = playBot(bird_colors, botMoves, bot_algorithm)
