@@ -70,7 +70,7 @@ def play(playerType,bot_algorithm=0):
 
     #---------- start ------------
     def generate_start():
-        branch_number = random.randint(4,6)
+        branch_number = random.randint(6,8)
         branch_birds = []
         available_birds = []
 

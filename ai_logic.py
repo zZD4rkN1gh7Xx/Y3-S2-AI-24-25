@@ -28,6 +28,11 @@ def get_possible_moves(branch_birds):
     for src in range(len(branch_birds)):  
         if len(branch_birds[src]) == 0:
             continue  
+        
+        # IMPEDE DE JOGAR RAMOS ja completos de serem jogados
+        if len(branch_birds[src]) == 4 and all(bird == branch_birds[src][0] for bird in branch_birds[src]):
+            continue  
+
 
         top_bird = branch_birds[src][-1]  
 

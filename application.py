@@ -48,11 +48,11 @@ def main_menu():
                              base_color="#d7fcd4", hovering_color="orange")
         
         OPTIONS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2, 410), 
-                             text_input="OPTIONS", font=get_font(30), 
+                             text_input="ALGORITHMS", font=get_font(20), 
                              base_color="#d7fcd4", hovering_color="orange")
         
         BOT_STATS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2, 500),  
-                          text_input="BOT STATS", font=get_font(30),  
+                          text_input="BOT STATS", font=get_font(24),  
                           base_color="#d7fcd4", hovering_color="orange")
 
         for button in [PLAY_BUTTON, OPTIONS_BUTTON, BOT_STATS_BUTTON]:  
@@ -70,8 +70,9 @@ def main_menu():
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options(BG)
                 if BOT_STATS_BUTTON.checkForInput(MENU_MOUSE_POS):  
-                    show_bot_statistics()
-
+                    show_bot_statistics(screen)
+                    
+                    
         pygame.display.update()
 
 

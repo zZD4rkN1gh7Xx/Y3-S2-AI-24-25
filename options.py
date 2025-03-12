@@ -27,7 +27,8 @@ def options(BG):
 
         button_image = pygame.image.load("utilities/menu-buttom.png")
             
-        button_small = pygame.transform.scale(button_image, (250, 100))  
+        button_small = pygame.transform.scale(button_image,(125, 90))
+       
         button_large = pygame.transform.scale(button_image, (400, 150))  
 
         BUTTON1 = Button(image=button_large, pos=(150, 150),  
@@ -60,8 +61,8 @@ def options(BG):
 
 
         BACK_BUTTON = Button(image=button_small, pos=(50,510),
-                                text_input="<-", font=get_font(20),
-                                base_color="#d7fcd4", hovering_color="orange")
+                            text_input="<-", font=get_font(20),
+                            base_color="#d7fcd4", hovering_color="orange") 
 
 
 
