@@ -39,6 +39,9 @@ def get_possible_moves(branch_birds):
         for dest in range(len(branch_birds)):  
             if src == dest:
                 continue  
+
+            if len(branch_birds[dest]) == 0 and all(bird == branch_birds[src][0] for bird in branch_birds[src]):
+                continue
             
             if len(branch_birds[dest]) < 4:  
                 if len(branch_birds[dest]) == 0 or branch_birds[dest][-1] == top_bird:
