@@ -83,8 +83,8 @@ def get_new_boards(branch_birds, new_moves):
 
             new_board[source] = new_board[source][:len(new_board[source]) - num_birds_moving]
 
-            new_boards.append(BoardState(new_board))  # Convert to BoardState
-
+            new_boards.append(BoardState(new_board))  
+            
     return new_boards
 
 
@@ -374,31 +374,3 @@ def extract_moves(solution_path):
             moves.append(f"{source} -> {destination}")
     
     return moves
-
-
-#board = [[2, 0, 0, 1], [1, 1, 3, 1], [2, 2, 3, 2], [0, 3, 0, 3], [], []]
-#board = [[1, 2, 2, 3], [3, 1, 2, 0], [1, 3, 0, 0], [3, 2, 1, 0], [], []]
-#board = [[1, 6, 2, 7], [0, 4, 3, 1], [4, 5, 6, 0], [6, 8, 4, 0], [7, 3, 2, 0], [5, 8, 6, 8], [1, 7, 3, 1], [2, 8, 5, 2], [3, 4, 7, 5], [], []]
-board = [[4, 3, 4, 5], [2, 3, 1, 1], [2, 0, 0, 0], [1, 5, 1, 3], [4, 4, 5, 0], [3, 5, 2, 2], [], []]
-#print("BFS PATH ", extract_moves(solve_bfs(board)), "\n")
-
-print("A* PATH", extract_moves(solve_Astar(board,1.2)), "\n")
-
-#print("DFS PATH LENGHT ", len(extract_moves(solve_dfs(board))))
-
-#print("BFS PATH LENGTH:", len(extract_moves(solve_bfs(board))))
-#print("IDDFS PATH ", extract_moves(solve_iddfs(board)))
-
-#solution_path = solve_uniform_cost(board)
-
-#if solution_path:
-#    moves = extract_moves(solution_path)
-#    print("USC Path:", moves)
-#    print("usc len:", len(moves))
-#else:
-#    print("No solution found.")
-
-#print(solve_dfs(board))
-
-
-#print( get_hint([[1, 5], [7, 1, 3, 0], [5, 1, 2, 2], [0, 4, 2, 3], [5, 0, 2, 6], [4, 7, 0, 4], [4, 3, 5, 3], [1], [6, 6, 6], [7, 7]]))

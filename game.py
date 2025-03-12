@@ -107,10 +107,10 @@ def play(playerType,bot_algorithm=0):
 
         row_spacing = square_size + spacing_between_branches
 
-        # **Cloud Positioning**
-        cloud_x = -50  # Move the cloud towards the left
-        cloud_y = top_padding - 200  # Adjust height to appear behind the tree
-        screen.blit(cloud_image, (cloud_x, cloud_y))  # **Draw the cloud FIRST**
+ 
+        cloud_x = -50 
+        cloud_y = top_padding - 200 
+        screen.blit(cloud_image, (cloud_x, cloud_y))  
 
         for i in range(branch_num):
             column = 0 if i % 2 == 0 else 1
@@ -137,9 +137,9 @@ def play(playerType,bot_algorithm=0):
             selected_branches.append(branch_rect)
 
 
-        tree_left_x = -105  # Position for the left tree
-        tree_right_x = WIDTH - 350  # Position for the right tree
-        tree_y = top_padding - 180  # Adjust the vertical position of trees
+        tree_left_x = -105  
+        tree_right_x = WIDTH - 350 
+        tree_y = top_padding - 180 
 
         screen.blit(tree_image, (tree_left_x, tree_y))  # Draw the left tree
         screen.blit(tree_image, (tree_right_x, tree_y))  # Draw the right tree
