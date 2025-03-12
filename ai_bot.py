@@ -10,8 +10,8 @@ def playBot(board, moves, bot_algorithm):
     board_size = len(board)
     algorithm_name = ["DFS", "BFS", "IDDFS", "Uniform Cost", "Greedy", "A*", "Weighted A*"]
 
-    if not moves:  # Get moves during the first time
-        tracemalloc.start()  # Start tracking memory
+    if not moves:  
+        tracemalloc.start() 
         start_time = time.time()
 
         match bot_algorithm:
@@ -43,18 +43,19 @@ def playBot(board, moves, bot_algorithm):
         end_time = time.time()
         bot_think_time = end_time - start_time
         current_mem, peak_mem = tracemalloc.get_traced_memory()
-        tracemalloc.stop()  # Stop tracking memory
+        tracemalloc.stop()  
 
-        peak_mem_mb = peak_mem / (1024 * 1024)  # Convert bytes to MB
+        peak_mem_mb = peak_mem / (1024 * 1024) 
         print(f"Bot took {bot_think_time:.4f} seconds to compute the solution.")
         print(f"Peak memory usage: {peak_mem_mb:.2f} MB")
 
-        # Log time & memory usage in CSV
+        moves_str = "; ".join(ai_logic.extract_moves(moves)) if moves else "No solution"
+
         with open("bot_performance.csv", mode="a", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow([board_size, algorithm_name[bot_algorithm - 1], bot_think_time, peak_mem_mb])
+            writer.writerow([board_size, algorithm_name[bot_algorithm - 1], bot_think_time, peak_mem_mb, moves_str])
 
-    else:  # Run 1 move at a time
+    else: 
         new_move = moves[0]
         moves.pop(0)
         print(new_move)
