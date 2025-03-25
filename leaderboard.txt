@@ -1,0 +1,2 @@
+Moves: 20, TIme:  50.15s 
+Moves: 0, TIme:  38.33s 

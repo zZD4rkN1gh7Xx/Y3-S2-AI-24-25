@@ -201,8 +201,11 @@ def play(playerType,bot_algorithm=0):
 
 
 
-
-
+    moves = 0
+    start_time = time.time()  # To track time since the game started
+    win_time = None
+    file_written = False 
+    
     run = True
     while run:
         screen.fill('light blue')
@@ -214,7 +217,10 @@ def play(playerType,bot_algorithm=0):
         if new_game:
             branches, bird_colors = generate_start()
             initial_colors = copy.deepcopy(bird_colors)
+            start_time = time.time()
+            win_time = None
             new_game = False
+            file_written = False
         else:
             selected_branches = draw(branches, bird_colors)
             win = check_victory(bird_colors)
@@ -226,8 +232,14 @@ def play(playerType,bot_algorithm=0):
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     bird_colors = copy.deepcopy(initial_colors)
+                    moves = 0
+                    start_time = time.time()
+                    win_time = None
                 elif event.key == pygame.K_RETURN:
                     new_game = True
+                    moves = 0  
+                    start_time = time.time()  
+                    win_time = None 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BACK_BUTTON.checkForInput(MOUSE_POS):
                     return 
@@ -249,6 +261,7 @@ def play(playerType,bot_algorithm=0):
                                 selected = False
                                 select_branch = 100
                                 hint_move = None
+                                moves += 1
            
         if playerType == "BOT" and not win:
             bird_colors, botMoves = playBot(bird_colors, botMoves, bot_algorithm)
@@ -274,9 +287,24 @@ def play(playerType,bot_algorithm=0):
 
 
         if win:
-            victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')
+            if win_time is None:
+                win_time = time.time() - start_time
+
+            if not file_written:
+                # Calculate WER
+                board_size = len(bird_colors)  # Assuming board size is the number of columns (or branches)
+                wer = (moves * win_time) / board_size * 1000
+
+                with open("leaderboard.txt", "a") as file:
+                    file.write(f"Moves: {moves}, Time: {win_time: .2f}s, WER: {wer: .2f} \n")
+                
+                file_written = True
+
+            victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
             screen.blit(victory_text, (300, 475))
             play_winning_sound()
+
+        
 
         restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'orange')
         screen.blit(restart_text, (10, 10))
