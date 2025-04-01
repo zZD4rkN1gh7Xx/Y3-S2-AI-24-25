@@ -58,7 +58,7 @@ def main_menu():
                           base_color="#d7fcd4", hovering_color="orange")
         
         LEADERBOARD_BUTTON = Button(image=button_image2, pos=(WIDTH // 2 + 150, 500),  
-                          text_input="LEADER BOARD", font=get_font(24),  
+                          text_input="SCORE", font=get_font(24),  
                           base_color="#d7fcd4", hovering_color="orange")
 
         for button in [PLAY_BUTTON, OPTIONS_BUTTON, BOT_STATS_BUTTON, LEADERBOARD_BUTTON]:  

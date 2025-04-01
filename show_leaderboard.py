@@ -62,7 +62,7 @@ def draw_leaderboard(screen):
         else:
             # Table Headers
             header_font = pygame.font.Font('utilities/Sigmar-Regular.ttf', 26)
-            headers = ["#", "Name", "WER"]
+            headers = ["#", "Name", "SCORE"]
             header_x_positions = [150, 300, 500]
             
             for i, header in enumerate(headers):
