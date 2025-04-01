@@ -1,2 +1,40 @@
-Moves: 20, TIme:  50.15s 
-Moves: 0, TIme:  38.33s 
+Moves: 24, Time: 53.63s, WER: 160891.65 
+Moves: 18, Time: 30.38s, WER: 68362.39 
+Moves: 18, Time: 34.32s, WER: 77219.89 
+Moves: 22, Time: 33.56s, WER: 82041.66 
+Moves: 23, Time: 36.96s, WER: 106251.48 
+Name: ola, Moves: 22, Time: 32.36s, WER: 89003.07 
+Name: ola, Moves: 19, Time: 28.30s, WER: 67201.74 
+Name: None, Moves: 18, Time: 28.39s, WER: 63880.62 
+Name: None, Moves: 22, Time: 40.89s, WER: 112445.61 
+Name: None, Moves: 24, Time: 33.59s, WER: 100763.74 
+Name: None, Moves: 21, Time: 31.01s, WER: 81390.16 
+Name: None, Moves: 20, Time: 28.14s, WER: 70347.51 
+Name: None, Moves: 21, Time: 33.83s, WER: 88794.72 
+Name: olaa, Moves: 17, Time: 30.23s, WER: 64235.96 
+Name: eu, Moves: 19, Time: 33.22s, WER: 78908.00 
+Name: None, Moves: 21, Time: 28.21s, WER: 74040.12 
+Name: None, Moves: 21, Time: 28.98s, WER: 76072.57 
+Name: PAAA, Moves: 19, Time: 31.80s, WER: 13.24 
+Name: None, Moves: 20, Time: 41.66s, WER: 9.60 
+Name: , Moves: 21, Time: 48.69s, WER: 7.82 
+Name: luci, Moves: 20, Time: 34.82s, WER: 87046.03 
+Name: njndjandjandajndjand, Moves: 24, Time: 31.30s, WER: 93892.17 
+Name: None, Moves: 20, Time: 28.18s, WER: 70457.09 
+Name: None, Moves: 21, Time: 26.56s, WER: 69720.54 
+Name: None, Moves: 19, Time: 24.77s, WER: 58824.70 
+Name: None, Moves: 20, Time: 40.81s, WER: 102019.42 
+Name: None, Moves: 24, Time: 52.48s, WER: 157448.20 
+Name: aSsSsSsSssssSs, Moves: 19, Time: 33.40s, WER: 79332.48 
+Name: None, Moves: 21, Time: 47.36s, WER: 124312.42 
+Name: None, Moves: 23, Time: 40.31s, WER: 115900.72 
+Name: None, Moves: 23, Time: 36.41s, WER: 104692.12 
+Name: None, Moves: 21, Time: 34.52s, WER: 90604.70 
+Name: adadadadad, Moves: 22, Time: 42.65s, WER: 117275.72 
+Name: sddsd, Moves: 25, Time: 40.68s, WER: 127134.54 
+Name: okok, Moves: 26, Time: 69.64s, WER: 226342.84 
+Name: mkm, Moves: 25, Time: 61.28s, WER: 191500.13 
+Name: dadadadadada, Moves: 24, Time: 60.49s, WER: 181461.63 
+Name: eu, Moves: 21, Time: 37.86s, WER: 99393.90 
+Name: ols, Moves: 29, Time: 146.28s, WER: 530270.78 
+Name: ze, Moves: 21, Time: 31.22s, WER: 81939.87 

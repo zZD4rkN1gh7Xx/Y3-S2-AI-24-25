@@ -197,6 +197,60 @@ def play(playerType,bot_algorithm=0):
             win_channel.play(winning_sound)
             
 
+    def get_player_name(screen):
+        
+        button_image = pygame.image.load("utilities/menu-buttom.png")
+        button_width, button_height = 700, 200  
+        button_image = pygame.transform.scale(button_image, (button_width, button_height))
+
+        button_rect = button_image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2 - 30))
+
+        input_box_width = button_rect.width * 0.5  
+        input_box_height = 60  
+        input_box_x = button_rect.centerx - (input_box_width // 2)  
+        input_box_y = button_rect.y + (button_rect.height // 2) - (input_box_height // 2) - 10  
+        input_box = pygame.Rect(input_box_x, input_box_y, input_box_width, input_box_height)
+
+        font = pygame.font.Font('utilities/Sigmar-Regular.ttf', 30)
+        color_inactive = pygame.Color('lightskyblue3')
+        color_active = pygame.Color('dodgerblue2')
+        text_color = pygame.Color('black')  
+        placeholder_color = pygame.Color('gray')  # Color for placeholder text
+        color = color_inactive
+        active = False
+        text = ''
+        done = False
+        placeholder = "Name:"  # Placeholder text
+
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return None  
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    active = input_box.collidepoint(event.pos)
+                    color = color_active if active else color_inactive
+                if event.type == pygame.KEYDOWN and active:
+                    if event.key == pygame.K_RETURN:
+                        done = True
+                    elif event.key == pygame.K_BACKSPACE:
+                        text = text[:-1]
+                    else:
+                        text += event.unicode
+
+            screen.blit(button_image, button_rect.topleft)  # Draw button
+            
+            # Draw input box text
+            if text:
+                txt_surface = font.render(text, True, text_color)
+            else:
+                txt_surface = font.render(placeholder, True, placeholder_color)  # Render placeholder when text is empty
+            
+            screen.blit(txt_surface, (input_box.x + 10, input_box.y + 10))
+            pygame.display.update()  
+
+        return text
+
+
     #--------- game_loop ---------- 
 
 
@@ -295,9 +349,17 @@ def play(playerType,bot_algorithm=0):
                 board_size = len(bird_colors)  # Assuming board size is the number of columns (or branches)
                 wer = (moves * win_time) / board_size * 1000
 
-                with open("leaderboard.txt", "a") as file:
-                    file.write(f"Moves: {moves}, Time: {win_time: .2f}s, WER: {wer: .2f} \n")
-                
+                if playerType == "PLAYER" and moves != 0:
+                    # Pause the game and show the popup
+                    player_name = get_player_name(screen)
+                    if player_name is None:  # Handle case where the player closes the popup
+                        run = False
+                        break
+
+                    # Save the player's data to the leaderboard
+                    with open("leaderboard.txt", "a") as file:
+                        file.write(f"Name: {player_name}, Moves: {moves}, Time: {win_time:.2f}s, WER: {wer:.2f} \n")
+
                 file_written = True
 
             victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
@@ -305,9 +367,26 @@ def play(playerType,bot_algorithm=0):
             play_winning_sound()
 
         
+        # Update timer (placed before pygame.display.flip())
+        if win and win_time is not None:
+            elapsed_time = win_time  
+            blink_color = "yellow" if int(time.time()) % 2 == 0 else "orange"
+        else:
+            elapsed_time = time.time() - start_time  
+            minutes = int(elapsed_time) // 60
+            seconds = int(elapsed_time) % 60
+            blink_color = "yellow"
+
+
+
+        # Render and display the formatted timer
+        timer_text = font.render(f"Time: {minutes}:{seconds:02d}", True, blink_color)
+        screen.blit(timer_text, (WIDTH - 200, 10))
+
 
         restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'orange')
         screen.blit(restart_text, (10, 10))
+
 
         pygame.display.flip()
 
