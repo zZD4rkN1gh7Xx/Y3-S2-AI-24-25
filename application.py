@@ -5,6 +5,7 @@ from buttons import Button
 from game import play
 from options import options
 from bot_statistics import show_bot_statistics
+from show_leaderboard import draw_leaderboard
 
 pygame.init()
 
@@ -42,6 +43,7 @@ def main_menu():
         button_image = pygame.image.load("utilities/menu-buttom.png")
         button_image = pygame.transform.scale(button_image, (400, 200))
         button_image2 = pygame.transform.scale(button_image, (300, 150))
+        
 
         PLAY_BUTTON = Button(image=button_image, pos=(WIDTH // 2, 310), 
                              text_input="PLAY!", font=get_font(50), 
@@ -51,11 +53,15 @@ def main_menu():
                              text_input="ALGORITHMS", font=get_font(20), 
                              base_color="#d7fcd4", hovering_color="orange")
         
-        BOT_STATS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2, 500),  
+        BOT_STATS_BUTTON = Button(image=button_image2, pos=(WIDTH // 2 - 150, 500),  
                           text_input="BOT STATS", font=get_font(24),  
                           base_color="#d7fcd4", hovering_color="orange")
+        
+        LEADERBOARD_BUTTON = Button(image=button_image2, pos=(WIDTH // 2 + 150, 500),  
+                          text_input="LEADER BOARD", font=get_font(24),  
+                          base_color="#d7fcd4", hovering_color="orange")
 
-        for button in [PLAY_BUTTON, OPTIONS_BUTTON, BOT_STATS_BUTTON]:  
+        for button in [PLAY_BUTTON, OPTIONS_BUTTON, BOT_STATS_BUTTON, LEADERBOARD_BUTTON]:  
             button.changeColor(MENU_MOUSE_POS)  
             button.update(screen)
 
@@ -71,6 +77,8 @@ def main_menu():
                     options(BG)
                 if BOT_STATS_BUTTON.checkForInput(MENU_MOUSE_POS):  
                     show_bot_statistics(screen)
+                if LEADERBOARD_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    draw_leaderboard(screen)
                     
                     
         pygame.display.update()

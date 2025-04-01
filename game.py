@@ -144,11 +144,6 @@ def play(playerType,bot_algorithm=0):
         screen.blit(tree_image, (tree_left_x, tree_y))  # Draw the left tree
         screen.blit(tree_image, (tree_right_x, tree_y))  # Draw the right tree
 
-
-
-
-
-
         return selected_branches
 
     #--------- calculate move-------------
@@ -289,11 +284,14 @@ def play(playerType,bot_algorithm=0):
                     moves = 0
                     start_time = time.time()
                     win_time = None
+                    file_written = False
                 elif event.key == pygame.K_RETURN:
                     new_game = True
                     moves = 0  
                     start_time = time.time()  
                     win_time = None 
+                    file_written = False
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BACK_BUTTON.checkForInput(MOUSE_POS):
                     return 
@@ -345,29 +343,40 @@ def play(playerType,bot_algorithm=0):
                 win_time = time.time() - start_time
 
             if not file_written:
-                # Calculate WER
-                board_size = len(bird_colors)  # Assuming board size is the number of columns (or branches)
-                wer = (moves * win_time) / board_size * 1000
+                board_size = len(bird_colors) 
+                if moves > 0:
+                    wer = ((board_size) / (0.5 * win_time * moves)) * 100000
+                    rounded_wer = round(wer)
+
+                else:
+                    wer = 0 
 
                 if playerType == "PLAYER" and moves != 0:
-                    # Pause the game and show the popup
+
+                    victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
+                    screen.blit(victory_text, (300, 475))
+                    play_winning_sound()
+                    timer_text = font.render(f"Time: {minutes}:{seconds:02d}", True, blink_color)
+                    screen.blit(timer_text, (WIDTH - 200, 10))
+
+                    score_text = font.render(f"Score: {wer:.2f}", True, blink_color)
+                    screen.blit(score_text, (WIDTH - 200, 30))
+
                     player_name = get_player_name(screen)
-                    if player_name is None:  # Handle case where the player closes the popup
+                    if player_name is None: 
                         run = False
                         break
 
-                    # Save the player's data to the leaderboard
                     with open("leaderboard.txt", "a") as file:
                         file.write(f"Name: {player_name}, Moves: {moves}, Time: {win_time:.2f}s, WER: {wer:.2f} \n")
 
+                if playerType == "BOT":
+                    victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
+                    screen.blit(victory_text, (300, 475))
+                    play_winning_sound()
+
                 file_written = True
 
-            victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
-            screen.blit(victory_text, (300, 475))
-            play_winning_sound()
-
-        
-        # Update timer (placed before pygame.display.flip())
         if win and win_time is not None:
             elapsed_time = win_time  
             blink_color = "yellow" if int(time.time()) % 2 == 0 else "orange"
@@ -378,11 +387,8 @@ def play(playerType,bot_algorithm=0):
             blink_color = "yellow"
 
 
-
-        # Render and display the formatted timer
         timer_text = font.render(f"Time: {minutes}:{seconds:02d}", True, blink_color)
         screen.blit(timer_text, (WIDTH - 200, 10))
-
 
         restart_text = font.render('Stuck? Space-Restart, Enter-New Board!', True, 'orange')
         screen.blit(restart_text, (10, 10))
