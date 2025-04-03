@@ -11,20 +11,24 @@ def get_top_scores():
             for line in file:
                 parts = line.strip().split(", ")
                 if len(parts) < 4:
-                    continue 
+                    continue  
                 
-                name = parts[0].split(": ")[1]
-                moves = int(parts[1].split(": ")[1])
-                time = float(parts[2].split(": ")[1][:-1]) 
-                wer = float(parts[3].split(": ")[1])
+                try:
+                    name = parts[0].split(": ")[1]
+                    moves = int(parts[1].split(": ")[1])
+                    time = float(parts[2].split(": ")[1].replace("s", "")) 
+                    wer = float(parts[3].split(": ")[1])  
 
-                scores.append((name, moves, time, wer))
+                    scores.append((name, moves, time, wer))
+                except (IndexError, ValueError) as e:
+                    print(f"Skipping malformed line: {line.strip()} -> {e}")
 
-        scores.sort(key=lambda x: x[3]) 
-
-        return reversed(scores[:5])  # Return top 5
+        
+        scores.sort(key=lambda x: x[3])
+        return reversed(scores[-5:]) 
     except FileNotFoundError:
-        return []  
+        return []
+
 
 def draw_leaderboard(screen):
     # Load Background Assets
