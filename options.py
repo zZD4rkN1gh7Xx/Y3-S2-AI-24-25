@@ -1,7 +1,9 @@
 import pygame
 import sys
 from buttons import Button
-from game import play;
+from game import play
+
+
 def options(BG):
    
     WIDTH = 800
@@ -16,6 +18,8 @@ def options(BG):
     def get_font(size):  
         return pygame.font.Font('utilities/Sigmar-Regular.ttf', size)
 
+    selected_algorithm = None  # Store selected algorithm
+
     while True:
         screen.blit(BG, (0, 0))
 
@@ -28,7 +32,6 @@ def options(BG):
         button_image = pygame.image.load("utilities/menu-buttom.png")
             
         button_small = pygame.transform.scale(button_image,(125, 90))
-       
         button_large = pygame.transform.scale(button_image, (400, 150))  
 
         BUTTON1 = Button(image=button_large, pos=(150, 150),  
@@ -64,35 +67,54 @@ def options(BG):
                             text_input="<-", font=get_font(20),
                             base_color="#d7fcd4", hovering_color="orange") 
 
+        if selected_algorithm in [6, 7]:  # Show heuristic options only for A* and Weighted A*
+            HEURISTIC_TEXT = get_font(40).render("CHOOSE HEURISTIC", True, "orange")
+            HEURISTIC_RECT = HEURISTIC_TEXT.get_rect(center=(400, 200))
+            screen.blit(HEURISTIC_TEXT, HEURISTIC_RECT)
 
 
-        for button in [BUTTON1,BUTTON2,BUTTON3,BUTTON4,BUTTON5,BUTTON6,BUTTON7, BACK_BUTTON]:
-            button.changeColor(OPTIONS_MOUSE_POS)
-            button.update(screen)
+            scaled_button = pygame.transform.scale(button_image, (button_large.get_width() + 100, button_large.get_height()))
+
+            HEURISTIC_BUTTON1 = Button(image=scaled_button, pos=(250, 350),  
+                                    text_input="MISPLACED BIRDS", font=get_font(25),
+                                    base_color="#d7fcd4", hovering_color="orange")
+
+            HEURISTIC_BUTTON2 = Button(image=scaled_button, pos=(550, 350),  
+                                    text_input="ADVANCED", font=get_font(25),
+                                    base_color="#d7fcd4", hovering_color="orange")
+
+
+            for button in [HEURISTIC_BUTTON1, HEURISTIC_BUTTON2]:
+                button.changeColor(OPTIONS_MOUSE_POS)
+                button.update(screen)
+        else:
+            for button in [BUTTON1, BUTTON2, BUTTON3, BUTTON4, BUTTON5, BUTTON6, BUTTON7]:
+                button.changeColor(OPTIONS_MOUSE_POS)
+                button.update(screen)
+
+        BACK_BUTTON.changeColor(OPTIONS_MOUSE_POS)
+        BACK_BUTTON.update(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if BACK_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
                     return  
-                if BUTTON1.checkForInput(OPTIONS_MOUSE_POS):
-                    play("BOT",1)
-                if BUTTON2.checkForInput(OPTIONS_MOUSE_POS):
-                    play("BOT",2)  
-                if BUTTON3.checkForInput(OPTIONS_MOUSE_POS):
-                    play("BOT",3)  
-                if BUTTON4.checkForInput(OPTIONS_MOUSE_POS):
-                    play("BOT",4)  
-                if BUTTON5.checkForInput(OPTIONS_MOUSE_POS):
-                    play("BOT",5)
-                if BUTTON6.checkForInput(OPTIONS_MOUSE_POS):
-                    play("BOT",6)  
-                if BUTTON7.checkForInput(OPTIONS_MOUSE_POS):
-                    play("BOT",7)     
-          
+
+                if selected_algorithm in [6, 7]:  # Only A* and Weighted A* require heuristic
+                    if HEURISTIC_BUTTON1.checkForInput(OPTIONS_MOUSE_POS):
+                        play("BOT", selected_algorithm, 1)  # Misplaced Birds heuristic
+                    if HEURISTIC_BUTTON2.checkForInput(OPTIONS_MOUSE_POS):
+                        play("BOT", selected_algorithm, 2)  # Advanced heuristic
+                else:  
+                    for i, button in enumerate([BUTTON1, BUTTON2, BUTTON3, BUTTON4, BUTTON5, BUTTON6, BUTTON7], start=1):
+                        if button.checkForInput(OPTIONS_MOUSE_POS):
+                            if i in [6, 7]:  
+                                selected_algorithm = i 
+                            else:
+                                play("BOT", i)  
 
         pygame.display.update()
-
-

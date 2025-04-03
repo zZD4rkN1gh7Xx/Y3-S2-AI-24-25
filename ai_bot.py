@@ -3,8 +3,7 @@ import ai_logic
 import  csv
 import tracemalloc
 
-
-def playBot(board, moves, bot_algorithm):
+def playBot(board, moves, bot_algorithm,bot_heuristic):
     print("BOT IS PLAYING")
 
     board_size = len(board)
@@ -32,11 +31,11 @@ def playBot(board, moves, bot_algorithm):
                 moves = ai_logic.solve_greedy(board)
             case 6:
                 print("\n SOLVING USING A* \n")
-                moves = ai_logic.solve_Astar(board)
+                moves = ai_logic.solve_Astar(board,choice=bot_heuristic)
             case 7:
                 w = 1.2
                 print("\n SOLVING USING WEIGHTED A*, with w = ", w, "\n")
-                moves = ai_logic.solve_Astar(board, w)
+                moves = ai_logic.solve_Astar(board, w,choice=bot_heuristic)
             case _:
                 print("Invalid algorithm option \n")
 

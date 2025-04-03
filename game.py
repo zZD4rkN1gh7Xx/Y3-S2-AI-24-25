@@ -11,7 +11,7 @@ def get_font(size):
 
 # Define the play function here without immediately running it
 
-def play(playerType,bot_algorithm=0):
+def play(playerType,bot_algorithm=0,bot_heuristic=1):
     pygame.init()  # Initialize pygame only when starting the game loop
     
     pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)  # Reduce buffer size to lower latency
@@ -316,7 +316,7 @@ def play(playerType,bot_algorithm=0):
                                 moves += 1
            
         if playerType == "BOT" and not win:
-            bird_colors, botMoves = playBot(bird_colors, botMoves, bot_algorithm)
+            bird_colors, botMoves = playBot(bird_colors, botMoves, bot_algorithm,bot_heuristic)
 
         BACK_BUTTON.changeColor(MOUSE_POS)
         BACK_BUTTON.update(screen)
