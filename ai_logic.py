@@ -22,6 +22,14 @@ class BoardState:
 
 
 # -------------AUXILIAR FUNCTIONS---------------#
+def choose_heuristic(choice, board):
+    if choice == 1:
+        return miss_placed_birds(board)
+    elif choice == 2:
+        return advanced_heuristic(board)
+    else:
+        raise ValueError("Invalid heuristic choice. Choose 1 or 2.")
+
 def get_possible_moves(branch_birds):
     possible_moves = []
     
@@ -110,7 +118,7 @@ def reconstruct_path(start_branch, current_branch, parent_map):
     path.append(start_branch.to_list())
     return list(reversed(path))
 
-
+# Heuristic 1
 def miss_placed_birds(board):
     misplaced = 0
 
@@ -125,6 +133,29 @@ def miss_placed_birds(board):
                 misplaced += 1  
 
     return misplaced
+
+# Heuristic 2
+def advanced_heuristic(board):
+    moves_needed = 0
+    color_positions = {}
+
+    for branch_index, branch in enumerate(board):
+        for bird in branch:
+            if bird not in color_positions:
+                color_positions[bird] = []
+            color_positions[bird].append(branch_index)
+
+    for color, positions in color_positions.items():
+        unique_branches = set(positions)
+        moves_needed += len(unique_branches) - 1  
+
+    empty_branches = sum(1 for branch in board if not branch)
+    
+    if empty_branches == 0:
+        moves_needed += 3  
+
+    return moves_needed
+
 
 # escolhe a move que tenha mais passaros mal sem estar no estado de visited
 def best_local_move(branch_birds, visited):
@@ -290,7 +321,7 @@ def solve_bfs(initial_board):
 
 
 # fuciona como A* normal no caso da weight for 1 (default) e tambem como weighted no case de ser  1 <
-def solve_Astar(initial_board, weight=1):
+def solve_Astar(initial_board, weight=1, choice=2):
     start_state = BoardState(initial_board)
 
     queue = [(miss_placed_birds(initial_board), 0, start_state)]  
@@ -317,7 +348,7 @@ def solve_Astar(initial_board, weight=1):
 
             if board not in g_scores or new_g < g_scores[board]:
                 g_scores[board] = new_g  
-                f_score = new_g + weight*miss_placed_birds(board.to_list())  
+                f_score = new_g + weight*choose_heuristic(choice,board.to_list())  
                 heapq.heappush(queue, (f_score, new_g, board))
                 parent_map[board] = current_state   
 
@@ -374,3 +405,23 @@ def extract_moves(solution_path):
             moves.append(f"{source} -> {destination}")
     
     return moves
+
+
+board1 = [
+    [0, 1, 2, 3],
+    [4, 5, 6, 7],
+    [1, 2, 3, 0],
+    [5, 6, 7, 4],
+    [2, 3, 0, 1],
+    [6, 7, 4, 5],
+    [3, 0, 1, 2],
+    [7, 4, 5, 6],
+    [],
+    []
+]
+
+board2 = [[2, 0, 0, 1], [1, 1, 3, 1], [2, 2, 3, 2], [0, 3, 0, 3], [], []]
+
+solutionPath = solve_Astar(board2, weight=1, choice=2)
+print("Solution Path:", len(solutionPath))
+print("Moves:", extract_moves(solutionPath))

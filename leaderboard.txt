@@ -4,3 +4,5 @@ Name: hfdhf, Moves: 21, Time: 23.71s, WER: 321.29
 Name: kakaka, Moves: 28, Time: 39.29s, WER: 145.44 
 Name: okok, Moves: 20, Time: 28.36s, WER: 282.12 
 Name: okok, Moves: 22, Time: 27.02s, WER: 2691.18 
+Name: joniii, Moves: 22, Time: 43.02s, WER: 1690.38 
+Name: joniii, Moves: 17, Time: 20.43s, WER: 4606.50 
