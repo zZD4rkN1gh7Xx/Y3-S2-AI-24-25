@@ -70,7 +70,7 @@ def play(playerType,bot_algorithm=0):
 
     #---------- start ------------
     def generate_start():
-        branch_number = random.randint(8,10)
+        branch_number = random.randint(6,8)
         branch_birds = []
         available_birds = []
 
@@ -370,10 +370,10 @@ def play(playerType,bot_algorithm=0):
                     with open("leaderboard.txt", "a") as file:
                         file.write(f"Name: {player_name}, Moves: {moves}, Time: {win_time:.2f}s, WER: {wer:.2f} \n")
 
-                if playerType == "BOT":
-                    victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
-                    screen.blit(victory_text, (300, 475))
-                    play_winning_sound()
+            if playerType == "BOT":
+                victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
+                screen.blit(victory_text, (300, 475))
+                play_winning_sound()
 
                 file_written = True
 
