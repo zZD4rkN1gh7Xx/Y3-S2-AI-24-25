@@ -28,7 +28,7 @@ def playBot(board, moves, bot_algorithm,bot_heuristic):
                 moves = ai_logic.solve_uniform_cost(board)
             case 5:
                 print("\n SOLVING USING GREEDY \n")
-                moves = ai_logic.solve_greedy(board)
+                moves = ai_logic.solve_greedy(board,choice=bot_heuristic)
             case 6:
                 print("\n SOLVING USING A* \n")
                 moves = ai_logic.solve_Astar(board,choice=bot_heuristic)

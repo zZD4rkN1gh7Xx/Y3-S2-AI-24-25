@@ -84,7 +84,11 @@ def options(BG):
                                     base_color="#d7fcd4", hovering_color="orange")
 
 
-            for button in [HEURISTIC_BUTTON1, HEURISTIC_BUTTON2]:
+            HEURISTIC_BUTTON3 = Button(image=scaled_button, pos=(400, 450),  
+                                    text_input="COMBINED HEURISTIC", font=get_font(25),
+                                    base_color="#d7fcd4", hovering_color="orange")
+
+            for button in [HEURISTIC_BUTTON1, HEURISTIC_BUTTON2, HEURISTIC_BUTTON3]:
                 button.changeColor(OPTIONS_MOUSE_POS)
                 button.update(screen)
         else:
@@ -104,15 +108,17 @@ def options(BG):
                 if BACK_BUTTON.checkForInput(OPTIONS_MOUSE_POS):
                     return  
 
-                if selected_algorithm in [6, 7]:  # Only A* and Weighted A* require heuristic
+                if selected_algorithm in [5,6, 7]:  # Only Greedy, A* and Weighted A* require heuristic
                     if HEURISTIC_BUTTON1.checkForInput(OPTIONS_MOUSE_POS):
                         play("BOT", selected_algorithm, 1)  # Misplaced Birds heuristic
                     if HEURISTIC_BUTTON2.checkForInput(OPTIONS_MOUSE_POS):
                         play("BOT", selected_algorithm, 2)  # Advanced heuristic
+                    if HEURISTIC_BUTTON3.checkForInput(OPTIONS_MOUSE_POS):
+                        play("BOT", selected_algorithm, 3)
                 else:  
                     for i, button in enumerate([BUTTON1, BUTTON2, BUTTON3, BUTTON4, BUTTON5, BUTTON6, BUTTON7], start=1):
                         if button.checkForInput(OPTIONS_MOUSE_POS):
-                            if i in [6, 7]:  
+                            if i in [5, 6, 7]:  
                                 selected_algorithm = i 
                             else:
                                 play("BOT", i)  

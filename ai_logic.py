@@ -27,8 +27,10 @@ def choose_heuristic(choice, board):
         return miss_placed_birds(board)
     elif choice == 2:
         return advanced_heuristic(board)
+    elif choice == 3:
+        return combined_heuristic(board)
     else:
-        raise ValueError("Invalid heuristic choice. Choose 1 or 2.")
+        raise ValueError("Invalid heuristic choice. Choose 1, 2 or 3.")
 
 def get_possible_moves(branch_birds):
     possible_moves = []
@@ -156,9 +158,12 @@ def advanced_heuristic(board):
 
     return moves_needed
 
+def combined_heuristic(board):
+    return miss_placed_birds(board) + advanced_heuristic(board)
+
 
 # escolhe a move que tenha mais passaros mal sem estar no estado de visited
-def best_local_move(branch_birds, visited):
+def best_local_move(branch_birds, visited, choice=1):
     possible_moves = get_possible_moves(branch_birds)
     best_move = None
     best_score = float('inf')
@@ -180,10 +185,10 @@ def best_local_move(branch_birds, visited):
         if new_state in visited:
             continue  
 
-        misplaced = miss_placed_birds(new_board_state)
+        score = choose_heuristic(choice, new_board_state)
 
-        if misplaced < best_score:
-            best_score = misplaced
+        if score < best_score:
+            best_score = score
             best_move = move
 
     if best_move:
@@ -201,7 +206,7 @@ def best_local_move(branch_birds, visited):
 
 
 
-def solve_greedy(initial_board):
+def solve_greedy(initial_board, choice=2):
     start_state = BoardState(initial_board)
     visited = set()
     parent_map = {}
@@ -212,7 +217,7 @@ def solve_greedy(initial_board):
             return None 
 
         visited.add(current_state)
-        next_board = best_local_move(current_state.to_list(), visited) 
+        next_board = best_local_move(current_state.to_list(), visited, choice) 
 
         if not next_board:
             return None 
@@ -422,6 +427,12 @@ board1 = [
 
 board2 = [[2, 0, 0, 1], [1, 1, 3, 1], [2, 2, 3, 2], [0, 3, 0, 3], [], []]
 
-solutionPath = solve_Astar(board2, weight=1, choice=2)
-print("Solution Path:", len(solutionPath))
-print("Moves:", extract_moves(solutionPath))
+#solutionPath = solve_Astar(board2, weight=1, choice=2)
+#print("Solution Path:", len(solutionPath))
+#print("Moves:", extract_moves(solutionPath))
+#solutionPath = solve_greedy(board2, choice=1)
+#if solutionPath is None:
+#    print("No solution found!")
+#else:
+#    print("Solution Path:", len(solutionPath))
+#    print("Moves:", extract_moves(solutionPath))
