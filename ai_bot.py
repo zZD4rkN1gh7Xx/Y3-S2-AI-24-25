@@ -8,7 +8,6 @@ def playBot(board, moves, bot_algorithm, bot_heuristic):
 
     board_size = len(board)
     algorithm_name = ["DFS", "BFS", "IDDFS", "Uniform Cost", "Greedy", "A*", "Weighted A*"]
-    greedy_failed = False  # flag to track if Greedy fails
 
     if not moves:
         tracemalloc.start()
@@ -31,9 +30,6 @@ def playBot(board, moves, bot_algorithm, bot_heuristic):
                 case 5:
                     print("\n SOLVING USING GREEDY \n")
                     moves = ai_logic.solve_greedy(board, choice=bot_heuristic)
-                    # if no moves were found
-                    if not moves:
-                        greedy_failed = True
                 case 6:
                     print("\n SOLVING USING A* \n")
                     moves = ai_logic.solve_Astar(board, choice=bot_heuristic)
@@ -44,12 +40,10 @@ def playBot(board, moves, bot_algorithm, bot_heuristic):
                 case _:
                     print("Invalid algorithm option \n")
                     moves = []
+
         except RuntimeError as e:
-            print(f"Greedy failed: {e}")
-            print("Falling back to A*.")
-            greedy_failed = True
-            bot_algorithm = 6  # change the algorithm to A*
-            moves = ai_logic.solve_Astar(board, choice=bot_heuristic)
+            print(f"Search failed: {e}")
+            return None, []
 
         end_time = time.time()
         bot_think_time = end_time - start_time
@@ -63,33 +57,28 @@ def playBot(board, moves, bot_algorithm, bot_heuristic):
         # Extract the move sequence
         moves_str = "; ".join(ai_logic.extract_moves(moves)) if moves else "No solution"
 
-        # Writing the result to the file
+        # Writing performance to file
         with open("bot_performance.csv", mode="a", newline="") as file:
             writer = csv.writer(file)
-
-            if greedy_failed:
-                row = [board_size, "Greedy", bot_think_time, peak_mem_mb, "No solution"]
-                if bot_algorithm in [5, 6, 7]:
-                    row.append(f"{bot_heuristic}")
-                writer.writerow(row)
-
-            #log the actual algorithm result
             row = [board_size, algorithm_name[bot_algorithm - 1], bot_think_time, peak_mem_mb, moves_str]
             if bot_algorithm in [5, 6, 7]:
                 row.append(f"{bot_heuristic}")
             writer.writerow(row)
 
-    else:
-        new_move = moves[0]
-        moves.pop(0)
-        print(new_move)
+        if not moves:
+            print("No solution found by bot.")
+            return None, []
+
+    if moves:
+        new_move = moves.pop(0)
         board = new_move
         time.sleep(0.5)
-
-    print(board)
-    print(moves)
+    else:
+        print("No more moves to play.")
+        return None, []
 
     return board, moves
+
 
 # da-te uma hint based na euristica de defenida na miss_placed_birds
 def get_hint(branch_birds):

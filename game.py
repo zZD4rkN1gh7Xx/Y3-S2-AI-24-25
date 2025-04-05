@@ -316,7 +316,16 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
                                 moves += 1
            
         if playerType == "BOT" and not win:
-            bird_colors, botMoves = playBot(bird_colors, botMoves, bot_algorithm,bot_heuristic)
+            result = playBot(bird_colors, botMoves, bot_algorithm, bot_heuristic)
+
+            if result[0] is None:
+                no_solution_text = font.render("No solution found! Press Enter for a new board.", True, "red")
+                screen.blit(no_solution_text, (150, 475))
+                pygame.display.update()
+                time.sleep(3)
+                return 
+            else:
+                bird_colors, botMoves = result
 
         BACK_BUTTON.changeColor(MOUSE_POS)
         BACK_BUTTON.update(screen)
