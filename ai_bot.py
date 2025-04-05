@@ -52,7 +52,13 @@ def playBot(board, moves, bot_algorithm,bot_heuristic):
 
         with open("bot_performance.csv", mode="a", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow([board_size, algorithm_name[bot_algorithm - 1], bot_think_time, peak_mem_mb, moves_str])
+
+            row = [board_size, algorithm_name[bot_algorithm - 1], bot_think_time, peak_mem_mb, moves_str]
+            
+            if bot_algorithm in [5, 6, 7]:
+                row.append(f"{bot_heuristic}")  
+
+            writer.writerow(row)
 
     else: 
         new_move = moves[0]

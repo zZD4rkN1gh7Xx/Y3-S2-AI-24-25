@@ -114,7 +114,7 @@ def options(BG):
                     if HEURISTIC_BUTTON2.checkForInput(OPTIONS_MOUSE_POS):
                         play("BOT", selected_algorithm, 2)  # Advanced heuristic
                     if HEURISTIC_BUTTON3.checkForInput(OPTIONS_MOUSE_POS):
-                        play("BOT", selected_algorithm, 3)
+                        play("BOT", selected_algorithm, 3) #combined heuristic
                 else:  
                     for i, button in enumerate([BUTTON1, BUTTON2, BUTTON3, BUTTON4, BUTTON5, BUTTON6, BUTTON7], start=1):
                         if button.checkForInput(OPTIONS_MOUSE_POS):

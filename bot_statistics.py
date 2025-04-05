@@ -1,7 +1,5 @@
 import pygame
-import pygame.locals
 import matplotlib.pyplot as plt
-import csv
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import sys
 from collections import defaultdict
@@ -21,25 +19,58 @@ def compute_averages(data):
 def show_bot_statistics(screen):
     data = defaultdict(lambda: {'times': [], 'memory_usage': [], 'num_moves': []})
     
+    heuristic_time_data = defaultdict(list)
+    
+    #target algorithmsfor heuristics
+    target_algorithms = ["A*", "Greedy", "Weighted A*"]
+    
     with open("bot_performance.csv", "r") as file:
-        reader = csv.reader(file)
-        for row in reader:
+        file_contents = file.read()
+    
+    lines = file_contents.strip().split('\n')
+    for line in lines:
+        parts = line.split(',')
+        
+        if len(parts) >= 5:
             try:
-                board_size = int(row[0])
-                algorithm = row[1]
-                time = float(row[2])
-                memory = float(row[3])
+                board_size = int(parts[0])
+                algorithm = parts[1]
+                time = float(parts[2])
+                memory = float(parts[3])
                 
-                moves_str = row[4] if len(row) > 4 else ""
-                num_moves = 0 if moves_str == "No solution" else len(moves_str.split("; "))
-                
-                data[(algorithm, board_size)]['times'].append(time)
-                data[(algorithm, board_size)]['memory_usage'].append(memory)
-                data[(algorithm, board_size)]['num_moves'].append(num_moves)
-            except ValueError:
-                print(f"Skipping invalid row: {row}")
+                # Try to get the heuristic (last value)
+                last_part = parts[-1].strip()
+                if last_part.isdigit():
+                    heuristic = int(last_part)
+                    
+                    moves_str = ','.join(parts[4:-1])
+                    num_moves = 0 if moves_str == "No solution" else len(moves_str.split("; "))
+                    
+                    data[(algorithm, board_size)]['times'].append(time)
+                    data[(algorithm, board_size)]['memory_usage'].append(memory)
+                    data[(algorithm, board_size)]['num_moves'].append(num_moves)
+                    
+                    if algorithm in target_algorithms:
+                        heuristic_time_data[(algorithm, heuristic)].append(time)
+                        print(f"Added: Algorithm: {algorithm}, Heuristic: {heuristic}, Time: {time}")
+                else:
+                    # No heuristic, just process for regular plots
+                    num_moves = 0 if parts[4] == "No solution" else len(parts[4].split("; "))
+                    data[(algorithm, board_size)]['times'].append(time)
+                    data[(algorithm, board_size)]['memory_usage'].append(memory)
+                    data[(algorithm, board_size)]['num_moves'].append(num_moves)
+                    
+            except (ValueError, IndexError) as e:
+                print(f"Skipping invalid line: {line}, error: {e}")
     
     averages = compute_averages(data)
+    
+    heuristic_averages = {}
+    for (algo, heur), times in heuristic_time_data.items():
+        if times:  # Ensure we have data
+            heuristic_averages[(algo, heur)] = sum(times) / len(times)
+    
+    print(f"Total heuristic data points: {len(heuristic_averages)}")
     
     plt.switch_backend('Agg')
     
@@ -76,7 +107,36 @@ def show_bot_statistics(screen):
     ax3.set_title("Algorithm Performance by Board Size (Number of Moves)")
     ax3.legend()
     
-   
+    # Create the new plot (Heuristic vs Time by Algorithm)
+    heuristic_names = {1: "Misplaced", 2: "Advanced", 3: "Combined"}
+    
+    fig4, ax4 = plt.subplots(figsize=(WIDTH / 100, HEIGHT / 100))
+    
+    if heuristic_averages:
+        unique_heuristic_algorithms = set(algo for (algo, _) in heuristic_averages.keys())
+        
+        algo_to_color_idx = {algo: i for i, algo in enumerate(unique_algorithms)}
+    
+        for algo in target_algorithms:
+            if algo in unique_heuristic_algorithms:
+                algo_data = [(h, avg_time) for (alg, h), avg_time in heuristic_averages.items() if alg == algo]
+                
+                if algo_data:
+                    x, y = zip(*sorted(algo_data))  # Sort by heuristic number
+                    color_idx = algo_to_color_idx.get(algo, 0)
+                    ax4.scatter(x, y, label=algo, color=colors(color_idx % len(unique_algorithms)))
+
+        
+        ax4.set_xlabel("Heuristic Type")
+        ax4.set_ylabel("Average Time (seconds)")
+        ax4.set_title("Algorithm Performance by Heuristic Type (Time)")
+        ax4.set_xticks(range(1, 4))
+        ax4.set_xticklabels([heuristic_names.get(i, str(i)) for i in range(1, 4)])
+        ax4.legend()
+    else:
+        plt.text(0.5, 0.5, "No heuristic data available", 
+                horizontalization='center', verticalalignment='center')
+    
     def plot_to_surface(fig):
         canvas = FigureCanvas(fig)
         canvas.draw()
@@ -86,9 +146,9 @@ def show_bot_statistics(screen):
         surface = pygame.image.fromstring(raw_data, size, "ARGB")
         return pygame.transform.scale(surface, (WIDTH, HEIGHT))
     
-    surf1, surf2, surf3 = plot_to_surface(fig1), plot_to_surface(fig2), plot_to_surface(fig3)
+    surf1, surf2, surf3, surf4 = plot_to_surface(fig1), plot_to_surface(fig2), plot_to_surface(fig3), plot_to_surface(fig4)
     
-    for surf in [surf1, surf2, surf3]:
+    for surf in [surf1, surf2, surf3, surf4]:
         screen.fill((0, 0, 0))
         screen.blit(surf, (0, 0))
         pygame.display.update()
@@ -106,3 +166,4 @@ def show_bot_statistics(screen):
     plt.close(fig1)
     plt.close(fig2)
     plt.close(fig3)
+    plt.close(fig4)
