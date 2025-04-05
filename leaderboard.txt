@@ -1,2 +1,15 @@
 Name: luci, Moves: 31, Time: 50.08s, WER: 1159.37 
 Name: luci2, Moves: 20, Time: 19.47s, WER: 4107.99 
+Name: mae, Moves: 11, Time: 37.13s, WER: 2938.09 
+Name: fw, Moves: 11, Time: 37.13s, WER: 2938.09 
+Name: fwfwfwf, Moves: 11, Time: 37.13s, WER: 2938.09 
+Name: ola, Moves: 19, Time: 24.73s, WER: 3405.23 
+Name: dadadadadad, Moves: 19, Time: 24.73s, WER: 3405.23 
+Name: luci, Moves: 14, Time: 11.70s, WER: 7325.78 
+Name:  jnjhn, Moves: 14, Time: 11.70s, WER: 7325.78 
+Name: ola, Moves: 25, Time: 26.95s, WER: 2375.19 
+Name: olsssss, Moves: 17, Time: 16.51s, WER: 4276.71 
+Name: ojkfsinfs, Moves: 14, Time: 10.03s, WER: 8544.35 
+Name: oolgy, Moves: 14, Time: 8.48s, WER: 10113.07 
+Name: oolgy, Moves: 14, Time: 8.48s, WER: 10113.07 
+Name: ugytdrsx, Moves: 10, Time: 7.10s, WER: 16909.24 

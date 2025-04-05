@@ -363,12 +363,10 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
                     screen.blit(score_text, (WIDTH - 200, 30))
 
                     player_name = get_player_name(screen)
-                    if player_name is None: 
-                        run = False
-                        break
-
-                    with open("leaderboard.txt", "a") as file:
-                        file.write(f"Name: {player_name}, Moves: {moves}, Time: {win_time:.2f}s, WER: {wer:.2f} \n")
+                    if player_name:
+                        with open("leaderboard.txt", "a") as file:
+                            file.write(f"Name: {player_name}, Moves: {moves}, Time: {win_time:.2f}s, WER: {wer:.2f} \n")
+                        file_written = True
 
             if playerType == "BOT":
                 victory_text = font.render('You Won! Press Enter for a new board!', True, 'white')  
@@ -397,4 +395,3 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
         pygame.display.flip()
 
     pygame.quit()
-

@@ -220,8 +220,8 @@ def solve_greedy(initial_board, choice=2):
         next_board = best_local_move(current_state.to_list(), visited, choice) 
 
         if not next_board:
-            return None 
-
+            raise RuntimeError("Greedy search failed to find a victory: reached dead end or looped state.")
+        
         next_state = BoardState(next_board)
         parent_map[next_state] = current_state
         current_state = next_state
