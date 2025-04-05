@@ -67,7 +67,7 @@ def options(BG):
                             text_input="<-", font=get_font(20),
                             base_color="#d7fcd4", hovering_color="orange") 
 
-        if selected_algorithm in [6, 7]:  # Show heuristic options only for A* and Weighted A*
+        if selected_algorithm in [5, 6, 7]:  # Show heuristic options only for greddy, A* and Weighted A*
             HEURISTIC_TEXT = get_font(40).render("CHOOSE HEURISTIC", True, "orange")
             HEURISTIC_RECT = HEURISTIC_TEXT.get_rect(center=(400, 200))
             screen.blit(HEURISTIC_TEXT, HEURISTIC_RECT)
