@@ -18,7 +18,7 @@ def options(BG):
     def get_font(size):  
         return pygame.font.Font('utilities/Sigmar-Regular.ttf', size)
 
-    selected_algorithm = None  # Store selected algorithm
+    selected_algorithm = None 
 
     while True:
         screen.blit(BG, (0, 0))

@@ -31,7 +31,6 @@ def get_top_scores():
 
 
 def draw_leaderboard(screen):
-    # Load Background Assets
     cloud_image = pygame.image.load("utilities/cartoon-cloud-png.png")
     cloud_image = pygame.transform.scale(cloud_image, (900, 250))  
 
@@ -49,7 +48,6 @@ def draw_leaderboard(screen):
     while running:
         screen.fill("light blue")
 
-        # Draw Background First
         screen.blit(cloud_image, (-50, -120)) 
 
         screen.blit(tree_image, (-100, screen.get_height() - 550))  
@@ -64,7 +62,6 @@ def draw_leaderboard(screen):
             no_scores_text = font.render("No scores available", True, "orange")
             screen.blit(no_scores_text, (screen.get_width() // 2 - 100, 100))
         else:
-            # Table Headers
             header_font = pygame.font.Font('utilities/Sigmar-Regular.ttf', 26)
             headers = ["#", "Name", "SCORE"]
             header_x_positions = [150, 300, 500]

@@ -9,12 +9,11 @@ from buttons import Button
 def get_font(size):  
     return pygame.font.Font('utilities/Sigmar-Regular.ttf', size)
 
-# Define the play function here without immediately running it
 
 def play(playerType,bot_algorithm=0,bot_heuristic=1):
-    pygame.init()  # Initialize pygame only when starting the game loop
+    pygame.init() 
     
-    pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)  # Reduce buffer size to lower latency
+    pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512) 
     pygame.mixer.music.load("utilities/why-did-the-chicken-cross-the-road-official-instrumental.mp3")  
     pygame.mixer.music.set_volume(0.5)  
     pygame.mixer.music.play(-1)
@@ -70,7 +69,7 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
 
     #---------- start ------------
     def generate_start():
-        branch_number = random.randint(9,10)
+        branch_number = random.randint(6,8)
         branch_birds = []
         available_birds = []
 
@@ -122,7 +121,7 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
             total_width = len(branch_birds[i]) * (square_size + square_padding) - square_padding
             start_x = x_pos + (branch_width - total_width) / 2
 
-            # Reverse bird order for second column
+            # reverse bird order for second column
             birds_to_draw = branch_birds[i] if column == 0 else list(reversed(branch_birds[i]))
 
             for j in range(len(birds_to_draw)):
@@ -141,8 +140,8 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
         tree_right_x = WIDTH - 350 
         tree_y = top_padding - 180 
 
-        screen.blit(tree_image, (tree_left_x, tree_y))  # Draw the left tree
-        screen.blit(tree_image, (tree_right_x, tree_y))  # Draw the right tree
+        screen.blit(tree_image, (tree_left_x, tree_y))  
+        screen.blit(tree_image, (tree_right_x, tree_y)) 
 
         return selected_branches
 
@@ -188,7 +187,7 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
         return won
     
     def play_winning_sound():
-        if not win_channel.get_busy():  # Prevents overlapping
+        if not win_channel.get_busy(): 
             win_channel.play(winning_sound)
             
 
@@ -210,12 +209,12 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
         color_inactive = pygame.Color('lightskyblue3')
         color_active = pygame.Color('dodgerblue2')
         text_color = pygame.Color('black')  
-        placeholder_color = pygame.Color('gray')  # Color for placeholder text
+        placeholder_color = pygame.Color('gray')  
         color = color_inactive
         active = False
         text = ''
         done = False
-        placeholder = "Name:"  # Placeholder text
+        placeholder = "Name:"  
 
         while not done:
             for event in pygame.event.get():
@@ -232,13 +231,12 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
                     else:
                         text += event.unicode
 
-            screen.blit(button_image, button_rect.topleft)  # Draw button
+            screen.blit(button_image, button_rect.topleft)  
             
-            # Draw input box text
             if text:
                 txt_surface = font.render(text, True, text_color)
             else:
-                txt_surface = font.render(placeholder, True, placeholder_color)  # Render placeholder when text is empty
+                txt_surface = font.render(placeholder, True, placeholder_color)  
             
             screen.blit(txt_surface, (input_box.x + 10, input_box.y + 10))
             pygame.display.update()  
@@ -251,7 +249,7 @@ def play(playerType,bot_algorithm=0,bot_heuristic=1):
 
 
     moves = 0
-    start_time = time.time()  # To track time since the game started
+    start_time = time.time() 
     win_time = None
     file_written = False 
     

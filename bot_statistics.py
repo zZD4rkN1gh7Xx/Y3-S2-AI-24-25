@@ -38,7 +38,7 @@ def show_bot_statistics(screen):
                 time = float(parts[2])
                 memory = float(parts[3])
                 
-                # Try to get the heuristic (last value)
+                # try to get the heuristic (last value)
                 last_part = parts[-1].strip()
                 if last_part.isdigit():
                     heuristic = int(last_part)
@@ -54,7 +54,7 @@ def show_bot_statistics(screen):
                         heuristic_time_data[(algorithm, heuristic)].append(time)
                         print(f"Added: Algorithm: {algorithm}, Heuristic: {heuristic}, Time: {time}")
                 else:
-                    # No heuristic, just process for regular plots
+                    # no heuristic just process for regular plots
                     num_moves = 0 if parts[4] == "No solution" else len(parts[4].split("; "))
                     data[(algorithm, board_size)]['times'].append(time)
                     data[(algorithm, board_size)]['memory_usage'].append(memory)
@@ -67,7 +67,7 @@ def show_bot_statistics(screen):
     
     heuristic_averages = {}
     for (algo, heur), times in heuristic_time_data.items():
-        if times:  # Ensure we have data
+        if times:  # rnsure we have data
             heuristic_averages[(algo, heur)] = sum(times) / len(times)
     
     print(f"Total heuristic data points: {len(heuristic_averages)}")
@@ -77,7 +77,7 @@ def show_bot_statistics(screen):
     unique_algorithms = set(algorithm for algorithm, _ in averages.keys())
     colors = plt.cm.get_cmap("tab10", len(unique_algorithms))
     
-    # Create the first plot (Time)
+    # create the first plot (time)
     fig1, ax1 = plt.subplots(figsize=(WIDTH / 100, HEIGHT / 100))
     for i, algo in enumerate(unique_algorithms):
         x, y = zip(*[(bs, avg[0]) for (alg, bs), avg in averages.items() if alg == algo])
@@ -87,7 +87,7 @@ def show_bot_statistics(screen):
     ax1.set_title("Algorithm Performance by Board Size (Time)")
     ax1.legend()
     
-    # Create the second plot (Memory Usage)
+    # create the second plot (memory Usage)
     fig2, ax2 = plt.subplots(figsize=(WIDTH / 100, HEIGHT / 100))
     for i, algo in enumerate(unique_algorithms):
         x, y = zip(*[(bs, avg[1]) for (alg, bs), avg in averages.items() if alg == algo])
@@ -107,7 +107,7 @@ def show_bot_statistics(screen):
     ax3.set_title("Algorithm Performance by Board Size (Number of Moves)")
     ax3.legend()
     
-    # Create the new plot (Heuristic vs Time by Algorithm)
+    # create the new plot (heuristic vs time by algorithm)
     heuristic_names = {1: "Misplaced", 2: "Advanced", 3: "Combined"}
     
     fig4, ax4 = plt.subplots(figsize=(WIDTH / 100, HEIGHT / 100))

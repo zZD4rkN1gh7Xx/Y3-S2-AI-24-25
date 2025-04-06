@@ -114,7 +114,7 @@ def reconstruct_path(start_branch, current_branch, parent_map):
     path = []
 
     while current_branch in parent_map:
-        path.append(current_branch.to_list())  # Convert BoardState to list
+        path.append(current_branch.to_list())  
         current_branch = parent_map[current_branch]
 
     path.append(start_branch.to_list())
@@ -272,7 +272,6 @@ def solve_iddfs(initial_board):
     while True:
         visited = set()
         parent_map = {}
-        #print(f"Trying depth {depth}...")  # Debugging
         result = dls(start_state, start_state, depth, visited, parent_map)
 
         if result:
@@ -412,27 +411,3 @@ def extract_moves(solution_path):
     return moves
 
 
-board1 = [
-    [0, 1, 2, 3],
-    [4, 5, 6, 7],
-    [1, 2, 3, 0],
-    [5, 6, 7, 4],
-    [2, 3, 0, 1],
-    [6, 7, 4, 5],
-    [3, 0, 1, 2],
-    [7, 4, 5, 6],
-    [],
-    []
-]
-
-board2 = [[2, 0, 0, 1], [1, 1, 3, 1], [2, 2, 3, 2], [0, 3, 0, 3], [], []]
-
-#solutionPath = solve_Astar(board2, weight=1, choice=2)
-#print("Solution Path:", len(solutionPath))
-#print("Moves:", extract_moves(solutionPath))
-#solutionPath = solve_greedy(board2, choice=1)
-#if solutionPath is None:
-#    print("No solution found!")
-#else:
-#    print("Solution Path:", len(solutionPath))
-#    print("Moves:", extract_moves(solutionPath))
