@@ -154,7 +154,7 @@ def advanced_heuristic(board):
     empty_branches = sum(1 for branch in board if not branch)
     
     if empty_branches == 0:
-        moves_needed += 3  
+        moves_needed += 1  
 
     return moves_needed
 
