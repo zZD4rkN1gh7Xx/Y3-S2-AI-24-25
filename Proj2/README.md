@@ -46,7 +46,7 @@ The following supervised learning models were implemented:
 
 ------------------------------------------------------------------------
 
-## 📊 Dataset & Problem Definition
+## Dataset & Problem Definition
 
 -   **Problem Type:** Multiclass classification\
 -   **Target Variable:** *Encoded as*
